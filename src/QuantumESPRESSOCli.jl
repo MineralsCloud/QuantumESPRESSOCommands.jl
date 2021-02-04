@@ -58,25 +58,25 @@ end
 
 @cast function pw(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
     options = materialize(cfgfile).pw
-    cmd = makecmd(input, output, error, options)
+    cmd = makecmd(input, output = output, error = error, options = options)
     return run(cmd)
 end
 
 @cast function ph(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
     options = materialize(cfgfile).ph
-    cmd = makecmd(input, output, error, options)
+    cmd = makecmd(input, output = output, error = error, options = options)
     return run(cmd)
 end
 
 @cast function q2r(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
     options = materialize(cfgfile).q2r
-    cmd = makecmd(input, output, error, options)
+    cmd = makecmd(input, output = output, error = error, options = options)
     return run(cmd)
 end
 
 @cast function matdyn(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
     options = materialize(cfgfile).matdyn
-    cmd = makecmd(input, output, error, options)
+    cmd = makecmd(input, output = output, error = error, options = options)
     return run(cmd)
 end
 
@@ -90,10 +90,10 @@ function materialize(cfgfile)
 end
 
 function makecmd(
-    input,
+    input;
     output = tempname(; cleanup = false),
     error = "",
-    options::PwxConfig = PwxConfig(),
+    options = PwxConfig(),
 )
     args = [options.exe]
     for f in fieldnames(PwxOptions)
@@ -121,8 +121,6 @@ function makecmd(
         return pipeline(setenv(Cmd(args); dir = dir), stdout = output, stderr = error)
     end
 end
-makecmd(input, output, error, options::AbstractDict) =
-    makecmd(input, output, error, from_dict(Config, options))
 
 """
 The main command `qe`.
