@@ -6,10 +6,10 @@ using Configurations: from_dict, @option
 
 export pw, ph, q2r, matdyn
 
-@option "mpi" struct MpiexecOptions
+@option struct MpiexecOptions
     exe::String = "mpiexec"
     np::UInt = 0
-    options::Dict{String,Any}
+    options::Dict{String,Any} = Dict()
 end
 
 @option struct PwxOptions
@@ -50,33 +50,68 @@ end
 end
 
 @option struct QuantumESPRESSOCliConfig
+    mpi::MpiexecOptions = MpiexecOptions()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
     matdyn::MatdynxConfig = MatdynxConfig()
 end
 
-@cast function pw(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).pw
-    cmd = makecmd(input, output = output, error = error, options = options)
+@cast function pw(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.pw,
+    )
     return run(cmd)
 end
 
-@cast function ph(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).ph
-    cmd = makecmd(input, output = output, error = error, options = options)
+@cast function ph(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.ph,
+    )
     return run(cmd)
 end
 
-@cast function q2r(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).q2r
-    cmd = makecmd(input, output = output, error = error, options = options)
+@cast function q2r(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    cfgfile = "",
+)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.q2r,
+    )
     return run(cmd)
 end
 
-@cast function matdyn(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).matdyn
-    cmd = makecmd(input, output = output, error = error, options = options)
+@cast function matdyn(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    cfgfile = "",
+)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.matdyn,
+    )
     return run(cmd)
 end
 
@@ -93,9 +128,17 @@ function makecmd(
     input;
     output = tempname(; cleanup = false),
     error = "",
+    mpi = MpiexecOptions(),
     options = PwxConfig(),
 )
-    args = [options.exe]
+    if mpi.np == 0
+        args = [options.exe]
+    else
+        args = [mpi.exe, string(mpi.np)]
+        for (k, v) in mpi.options
+            push!(args, k, string(v))
+        end
+    end
     for f in fieldnames(PwxOptions)
         v = getfield(options.options, f)
         if !iszero(v)
