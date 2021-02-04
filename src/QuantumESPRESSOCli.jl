@@ -4,7 +4,7 @@ using AbInitioSoftwareBase
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
-export pw
+export pw, ph, q2r, matdyn
 
 @option "mpi" struct MpiexecOptions
     exe::String = "mpiexec"
@@ -28,13 +28,6 @@ end
     options::PwxOptions = PwxOptions()
 end
 
-@cast function pw(input, output = tempname(; cleanup = false), error = ""; config = "")
-    options = if isfile(expanduser(config))
-        dict = load(expanduser(config))
-        from_dict(Config, dict)
-    else
-        Config()
-    end
 @option struct PhxConfig
     exe::String = "ph.x"
     script_dest::String = ""
@@ -62,8 +55,38 @@ end
     q2r::Q2rxConfig = Q2rxConfig()
     matdyn::MatdynxConfig = MatdynxConfig()
 end
+
+@cast function pw(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+    options = materialize(cfgfile).pw
     cmd = makecmd(input, output, error, options)
     return run(cmd)
+end
+
+@cast function ph(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+    options = materialize(cfgfile).ph
+    cmd = makecmd(input, output, error, options)
+    return run(cmd)
+end
+
+@cast function q2r(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+    options = materialize(cfgfile).q2r
+    cmd = makecmd(input, output, error, options)
+    return run(cmd)
+end
+
+@cast function matdyn(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+    options = materialize(cfgfile).matdyn
+    cmd = makecmd(input, output, error, options)
+    return run(cmd)
+end
+
+function materialize(cfgfile)
+    options = if isfile(expanduser(cfgfile))
+        dict = load(expanduser(cfgfile))
+        from_dict(QuantumESPRESSOCliConfig, dict)
+    else
+        QuantumESPRESSOCliConfig()
+    end
 end
 
 function makecmd(
