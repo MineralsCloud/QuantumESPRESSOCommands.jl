@@ -57,7 +57,7 @@ end
     matdyn::MatdynxConfig = MatdynxConfig()
 end
 
-@cast function pw(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+@cast function pw(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
     config = materialize(cfgfile)
     cmd = makecmd(
         input;
@@ -69,7 +69,7 @@ end
     return run(cmd)
 end
 
-@cast function ph(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+@cast function ph(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
     config = materialize(cfgfile)
     cmd = makecmd(
         input;
@@ -81,7 +81,12 @@ end
     return run(cmd)
 end
 
-@cast function q2r(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+@cast function q2r(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    cfgfile = "",
+)
     config = materialize(cfgfile)
     cmd = makecmd(
         input;
@@ -93,7 +98,12 @@ end
     return run(cmd)
 end
 
-@cast function matdyn(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
+@cast function matdyn(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    cfgfile = "",
+)
     config = materialize(cfgfile)
     cmd = makecmd(
         input;
