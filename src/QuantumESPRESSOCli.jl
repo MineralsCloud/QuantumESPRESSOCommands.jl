@@ -63,4 +63,10 @@ scriptify(input, output, error, options::AbstractDict) =
     scriptify(input, output, error, from_dict(PwConfig, options))
 scriptify(input, output, error; kwargs...) =
     scriptify(input, output, error, from_kwargs(PwConfig; kwargs...))
+
+"""
+The main command `qe`.
+"""
+@main
+
 end
