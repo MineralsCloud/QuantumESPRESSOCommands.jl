@@ -1,4 +1,4 @@
-name = "quantumespressocli"
+name = "qe"
 
 [install]
 completion = true
