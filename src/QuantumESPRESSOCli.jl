@@ -58,26 +58,50 @@ end
 end
 
 @cast function pw(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).pw
-    cmd = makecmd(input, output = output, error = error, options = options)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.pw,
+    )
     return run(cmd)
 end
 
 @cast function ph(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).ph
-    cmd = makecmd(input, output = output, error = error, options = options)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.ph,
+    )
     return run(cmd)
 end
 
 @cast function q2r(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).q2r
-    cmd = makecmd(input, output = output, error = error, options = options)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.q2r,
+    )
     return run(cmd)
 end
 
 @cast function matdyn(input, output = tempname(; cleanup = false), error = ""; cfgfile = "")
-    options = materialize(cfgfile).matdyn
-    cmd = makecmd(input, output = output, error = error, options = options)
+    config = materialize(cfgfile)
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        mpi = config.mpi,
+        options = config.matdyn,
+    )
     return run(cmd)
 end
 
