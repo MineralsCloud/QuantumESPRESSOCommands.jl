@@ -2,7 +2,7 @@ module QuantumESPRESSOCli
 
 using AbInitioSoftwareBase
 using Comonicon: @cast, @main
-using Configurations: from_kwargs, from_dict, @option
+using Configurations: from_dict, @option
 
 export pw
 
@@ -33,7 +33,12 @@ end
     return run(cmd)
 end
 
-function makecmd(input, output = tempname(; cleanup = true), error = "", options::PwConfig)
+function makecmd(
+    input,
+    output = tempname(; cleanup = true),
+    error = "",
+    options::PwConfig = PwConfig(),
+)
     args = [options.exe]
     for f in fieldnames(PwXConfig)
         v = getfield(options, f)
@@ -62,8 +67,6 @@ function makecmd(input, output = tempname(; cleanup = true), error = "", options
 end
 makecmd(input, output, error, options::AbstractDict) =
     makecmd(input, output, error, from_dict(PwConfig, options))
-makecmd(input, output, error; kwargs...) =
-    makecmd(input, output, error, from_kwargs(PwConfig; kwargs...))
 
 """
 The main command `qe`.
