@@ -4,6 +4,8 @@ using AbInitioSoftwareBase
 using Comonicon: @cast, @main
 using Configurations: from_kwargs, from_dict, @option
 
+export pw
+
 @option struct PwConfig
     exe::String = "pw.x"
     script_dest::String = ""
