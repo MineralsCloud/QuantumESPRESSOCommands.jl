@@ -4,6 +4,7 @@ authors = ["Qi Zhang <singularitti@outlook.com>"]
 version = "0.1.0"
 
 [deps]
+AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
 Comonicon = "863f3e99-da2a-4334-8734-de3dacbe5542"
 
 [compat]
