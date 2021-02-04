@@ -50,6 +50,7 @@ end
 end
 
 @option struct QuantumESPRESSOCliConfig
+    mpiexec::MpiexecOptions = MpiexecOptions()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
@@ -93,9 +94,17 @@ function makecmd(
     input;
     output = tempname(; cleanup = false),
     error = "",
+    mpi = MpiexecOptions(),
     options = PwxConfig(),
 )
-    args = [options.exe]
+    if mpi.np == 0
+        args = [options.exe]
+    else
+        args = [mpi.exe, string(mpi.np)]
+        for (k, v) in mpi.options
+            push!(args, k, string(v))
+        end
+    end
     for f in fieldnames(PwxOptions)
         v = getfield(options.options, f)
         if !iszero(v)
