@@ -9,7 +9,7 @@ export pw, ph, q2r, matdyn
 @option "mpi" struct MpiexecOptions
     exe::String = "mpiexec"
     np::UInt = 0
-    options::Dict{String,Any}
+    options::Dict{String,Any} = Dict()
 end
 
 @option struct PwxOptions
