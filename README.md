@@ -11,6 +11,7 @@
 [![Coverage](https://coveralls.io/repos/github/MineralsCloud/QuantumESPRESSOCli.jl/badge.svg?branch=master)](https://coveralls.io/github/MineralsCloud/QuantumESPRESSOCli.jl?branch=master)
 
 ## Installation
+
 <p>
 QuantumESPRESSOCli is a &nbsp;
     <a href="https://julialang.org">
@@ -37,21 +38,24 @@ pkg> add QuantumESPRESSOCli#master
 ### Command Line Interface
 
 Add `~/.julia/bin` to your `PATH` to enable command line interface. Or run
-`QuantumESPRESSOCli.comonicon_install_path()` to install everything automatically.
+`QuantumESPRESSOCli.comonicon_install_path()` to install everything
+automatically.
 
-Sometimes, you won't trigger the package `build` of Julia. You can install the command line interface
-manually via `QuantumESPRESSOCli.comonicon_install()`.
+Sometimes, you won't trigger the package `build` of Julia. You can install the
+command line interface manually via `QuantumESPRESSOCli.comonicon_install()`.
 
 ### Completions
 
-If you are using ZSH, you can enable the auto-completion by `QuantumESPRESSOCli.comonicon_install_path()`. Or add the `FPATH`
-to your `.zshrc`
+If you are using ZSH, you can enable the auto-completion by
+`QuantumESPRESSOCli.comonicon_install_path()`. Or add the `FPATH` to your
+`.zshrc`
 
 ```sh
 export FPATH="$HOME/.julia/completions:$FPATH"
 ```
 
-if you do not have [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh) installed, you need to add
+if you do not have [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh) installed,
+you need to add
 
 ```sh
 autoload -Uz compinit && compinit
