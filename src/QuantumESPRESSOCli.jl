@@ -33,7 +33,12 @@ end
     return run(cmd)
 end
 
-function scriptify(input, output, error, options::PwConfig)
+function scriptify(
+    input,
+    output = tempname(; cleanup = true),
+    error = "",
+    options::PwConfig,
+)
     args = [options.exe]
     for f in fieldnames(PwXConfig)
         v = getfield(options, f)
