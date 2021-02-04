@@ -22,7 +22,7 @@ end
     options::PwXConfig = PwXConfig()
 end
 
-@cast function pw(input, output = tempname(; cleanup = true), error = ""; config = "")
+@cast function pw(input, output = tempname(; cleanup = false), error = ""; config = "")
     options = if isfile(expanduser(config))
         dict = load(expanduser(config))
         from_dict(PwConfig, dict)
@@ -35,13 +35,13 @@ end
 
 function makecmd(
     input,
-    output = tempname(; cleanup = true),
+    output = tempname(; cleanup = false),
     error = "",
     options::PwConfig = PwConfig(),
 )
     args = [options.exe]
     for f in fieldnames(PwXConfig)
-        v = getfield(options, f)
+        v = getfield(options.options, f)
         if !iszero(v)
             push!(args, "-$f", string(v))
         end
