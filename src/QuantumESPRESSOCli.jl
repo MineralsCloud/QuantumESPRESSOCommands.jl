@@ -12,7 +12,7 @@ export pw
     options::Dict{String,Any}
 end
 
-@option struct PwXOptions
+@option struct PwxOptions
     nimage::UInt = 0
     npool::UInt = 0
     ntg::UInt = 0
