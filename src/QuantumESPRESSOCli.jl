@@ -6,7 +6,7 @@ using Configurations: from_dict, @option
 
 export pw, ph, q2r, matdyn
 
-@option "mpi" struct MpiexecOptions
+@option struct MpiexecOptions
     exe::String = "mpiexec"
     np::UInt = 0
     options::Dict{String,Any} = Dict()
@@ -50,7 +50,7 @@ end
 end
 
 @option struct QuantumESPRESSOCliConfig
-    mpiexec::MpiexecOptions = MpiexecOptions()
+    mpi::MpiexecOptions = MpiexecOptions()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
