@@ -20,6 +20,17 @@ end
     ndiag::UInt = 0
 end
 
+@cast function pw(input, output = tempname(; cleanup = true), error = ""; config = "")
+    options = if isfile(expanduser(config))
+        dict = load(expanduser(config))
+        from_dict(PwConfig, dict)
+    else
+        PwConfig()
+    end
+    cmd = scriptify(input, output, error, options)
+    return run(cmd)
+end
+
 function scriptify(input, output, error, options::PwConfig)
     args = [options.exe]
     for f in fieldnames(PwXConfig)
