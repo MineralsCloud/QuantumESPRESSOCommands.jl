@@ -1,6 +1,6 @@
 module QuantumESPRESSOCli
 
-using AbInitioSoftwareBase
+using AbInitioSoftwareBase: load
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
