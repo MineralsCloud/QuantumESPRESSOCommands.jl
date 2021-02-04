@@ -6,13 +6,6 @@ using Configurations: from_kwargs, from_dict, @option
 
 export pw
 
-@option struct PwConfig
-    exe::String = "pw.x"
-    script_dest::String = ""
-    chdir::Bool = true
-    options::PwXConfig = PwXConfig()
-end
-
 @option struct PwXConfig
     nimage::UInt = 0
     npool::UInt = 0
@@ -20,6 +13,13 @@ end
     nyfft::UInt = 0
     nband::UInt = 0
     ndiag::UInt = 0
+end
+
+@option struct PwConfig
+    exe::String = "pw.x"
+    script_dest::String = ""
+    chdir::Bool = true
+    options::PwXConfig = PwXConfig()
 end
 
 @cast function pw(input, output = tempname(; cleanup = true), error = ""; config = "")
@@ -59,7 +59,6 @@ function scriptify(input, output, error, options::PwConfig)
         push!(args, "-inp", "$input")
         return pipeline(setenv(Cmd(args); dir = dir), stdout = output, stderr = error)
     end
-    return args
 end
 scriptify(input, output, error, options::AbstractDict) =
     scriptify(input, output, error, from_dict(PwConfig, options))
