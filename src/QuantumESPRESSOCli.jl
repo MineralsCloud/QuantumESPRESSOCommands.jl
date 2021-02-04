@@ -7,6 +7,12 @@ using Configurations: from_dict, @option
 export pw
 
 @option struct PwXConfig
+@option "mpi" struct MpiexecOptions
+    exe::String = "mpiexec"
+    np::UInt = 0
+    options::Dict{String,Any}
+end
+
     nimage::UInt = 0
     npool::UInt = 0
     ntg::UInt = 0
