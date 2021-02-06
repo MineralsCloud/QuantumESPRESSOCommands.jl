@@ -1,7 +1,7 @@
 module QuantumESPRESSOCli
 
 using AbInitioSoftwareBase: load
-using AbInitioSoftwareBase.Cli: MpiexecOptions
+using AbInitioSoftwareBase.Cli: CliConfig, MpiexecOptions
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
@@ -44,7 +44,7 @@ end
     options::PwxOptions = PwxOptions()
 end
 
-@option struct QuantumESPRESSOCliConfig
+@option struct QuantumESPRESSOCliConfig <: CliConfig
     mpi::MpiexecOptions = MpiexecOptions()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
