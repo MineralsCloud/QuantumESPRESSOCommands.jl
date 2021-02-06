@@ -1,16 +1,11 @@
 module QuantumESPRESSOCli
 
 using AbInitioSoftwareBase: load
+using AbInitioSoftwareBase.Cli: MpiexecOptions
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
 export pw, ph, q2r, matdyn
-
-@option struct MpiexecOptions
-    exe::String = "mpiexec"
-    np::UInt = 0
-    options::Dict{String,Any} = Dict()
-end
 
 @option struct PwxOptions
     nimage::UInt = 0
