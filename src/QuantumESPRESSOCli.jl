@@ -133,6 +133,7 @@ function makecmd(
         for (k, v) in mpi.options
             push!(args, k, string(v))
         end
+        push!(args, options.exe)
     end
     for f in fieldnames(PwxOptions)
         v = getfield(options.options, f)
