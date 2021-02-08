@@ -129,7 +129,7 @@ function makecmd(
     if mpi.np == 0
         args = [options.exe]
     else
-        args = [mpi.exe, string(mpi.np)]
+        args = [mpi.exe, "-n", string(mpi.np)]
         for (k, v) in mpi.options
             push!(args, k, string(v))
         end
