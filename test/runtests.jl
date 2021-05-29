@@ -1,6 +1,6 @@
-using QuantumESPRESSOCli
+using QuantumESPRESSOCommands
 using Test
 
-@testset "QuantumESPRESSOCli.jl" begin
+@testset "QuantumESPRESSOCommands.jl" begin
     # Write your tests here.
 end

@@ -1,12 +1,14 @@
 ```@meta
-CurrentModule = QuantumESPRESSOCli
+CurrentModule = QuantumESPRESSOCommands
 ```
 
-# QuantumESPRESSOCli
+# QuantumESPRESSOCommands
+
+Documentation for [QuantumESPRESSOCommands](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [QuantumESPRESSOCli]
+Modules = [QuantumESPRESSOCommands]
 ```

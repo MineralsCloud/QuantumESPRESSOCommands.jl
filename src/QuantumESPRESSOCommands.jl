@@ -1,4 +1,4 @@
-module QuantumESPRESSOCli
+module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: load
 using AbInitioSoftwareBase.Cli: CliConfig, MpiexecOptions

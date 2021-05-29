@@ -11,8 +11,9 @@ jobs:
       matrix:
         version:
           - '1.0'
+          - '1.3'
+          - '1.4'
           - '1.6'
-          - 'nightly'
         os:
           - ubuntu-latest
           - macOS-latest
@@ -45,9 +46,6 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: lcov.info
-      - uses: julia-actions/julia-uploadcoveralls@v1
-        env:
-          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
   docs:
     name: Documentation
     runs-on: ubuntu-latest
@@ -63,9 +61,10 @@ jobs:
             Pkg.instantiate()'
       - run: |
           julia --project=docs -e '
-            using Documenter: doctest
-            using QuantumESPRESSOCli
-            doctest(QuantumESPRESSOCli)'
+            using Documenter: DocMeta, doctest
+            using QuantumESPRESSOCommands
+            DocMeta.setdocmeta!(QuantumESPRESSOCommands, :DocTestSetup, :(using QuantumESPRESSOCommands); recursive=true)
+            doctest(QuantumESPRESSOCommands)'
       - run: julia --project=docs docs/make.jl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
