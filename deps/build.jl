@@ -1,1 +1,1 @@
-using QuantumESPRESSOCli; QuantumESPRESSOCli.comonicon_install()
+using QuantumESPRESSOCommands; QuantumESPRESSOCommands.comonicon_install()
