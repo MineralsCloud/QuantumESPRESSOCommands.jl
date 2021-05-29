@@ -1,14 +1,16 @@
-using QuantumESPRESSOCli
+using QuantumESPRESSOCommands
 using Documenter
 
+DocMeta.setdocmeta!(QuantumESPRESSOCommands, :DocTestSetup, :(using QuantumESPRESSOCommands); recursive=true)
+
 makedocs(;
-    modules=[QuantumESPRESSOCli],
+    modules=[QuantumESPRESSOCommands],
     authors="Qi Zhang <singularitti@outlook.com>",
-    repo="https://github.com/MineralsCloud/QuantumESPRESSOCli.jl/blob/{commit}{path}#L{line}",
-    sitename="QuantumESPRESSOCli.jl",
+    repo="https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/blob/{commit}{path}#{line}",
+    sitename="QuantumESPRESSOCommands.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://MineralsCloud.github.io/QuantumESPRESSOCli.jl",
+        canonical="https://MineralsCloud.github.io/QuantumESPRESSOCommands.jl",
         assets=String[],
     ),
     pages=[
@@ -17,5 +19,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/MineralsCloud/QuantumESPRESSOCli.jl",
+    repo="github.com/MineralsCloud/QuantumESPRESSOCommands.jl",
 )
