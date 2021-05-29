@@ -4,9 +4,11 @@ CurrentModule = QuantumESPRESSOCommands
 
 # QuantumESPRESSOCommands
 
-Documentation for [QuantumESPRESSOCommands](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl).
+Documentation for
+[QuantumESPRESSOCommands](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl).
 
 ```@index
+
 ```
 
 ```@autodocs
