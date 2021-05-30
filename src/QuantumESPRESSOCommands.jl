@@ -111,7 +111,7 @@ end
 end
 
 function materialize(cfgfile)
-    options = if isfile(expanduser(cfgfile))
+    return if isfile(expanduser(cfgfile))
         dict = load(expanduser(cfgfile))
         from_dict(QuantumESPRESSOCliConfig, dict)
     else
