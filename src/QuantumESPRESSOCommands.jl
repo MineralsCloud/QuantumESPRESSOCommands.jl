@@ -53,13 +53,13 @@ end
 end
 
 @cast function pw(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
-    config = materialize(cfgfile)
+    config = readconfig(cfgfile)
     cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.pw)
     return run(cmd)
 end
 
 @cast function ph(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
-    config = materialize(cfgfile)
+    config = readconfig(cfgfile)
     cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.ph)
     return run(cmd)
 end
@@ -70,7 +70,7 @@ end
     error = output;
     cfgfile = "",
 )
-    config = materialize(cfgfile)
+    config = readconfig(cfgfile)
     cmd =
         makecmd(input; output = output, error = error, mpi = config.mpi, main = config.q2r)
     return run(cmd)
@@ -82,7 +82,7 @@ end
     error = output;
     cfgfile = "",
 )
-    config = materialize(cfgfile)
+    config = readconfig(cfgfile)
     cmd = makecmd(
         input;
         output = output,
@@ -93,9 +93,10 @@ end
     return run(cmd)
 end
 
-function materialize(cfgfile)
-    return if isfile(expanduser(cfgfile))
-        dict = load(expanduser(cfgfile))
+function readconfig(cfgfile)
+    cfgfile = expanduser(cfgfile)
+    return if isfile(cfgfile)
+        dict = load(cfgfile)
         from_dict(QuantumESPRESSOCliConfig, dict)
     else
         QuantumESPRESSOCliConfig()
