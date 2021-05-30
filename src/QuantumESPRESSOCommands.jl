@@ -1,13 +1,13 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: load
-using AbInitioSoftwareBase.Cli: CliConfig, MpiexecOptions
+using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
 export pw, ph, q2r, matdyn
 
-@option struct PwxOptions
+@option struct ParallelizationFlags
     nimage::UInt = 0
     npool::UInt = 0
     ntg::UInt = 0
@@ -16,36 +16,36 @@ export pw, ph, q2r, matdyn
     ndiag::UInt = 0
 end
 
-@option struct PwxConfig
+@option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationFlags = ParallelizationFlags()
 end
 
-@option struct PhxConfig
+@option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationFlags = ParallelizationFlags()
 end
 
-@option struct Q2rxConfig
+@option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationFlags = ParallelizationFlags()
 end
 
-@option struct MatdynxConfig
+@option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationFlags = ParallelizationFlags()
 end
 
-@option struct QuantumESPRESSOCliConfig <: CliConfig
-    mpi::MpiexecOptions = MpiexecOptions()
+@option struct QuantumESPRESSOCliConfig <: CommandConfig
+    mpi::MpiexecConfig = MpiexecConfig()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
@@ -54,25 +54,13 @@ end
 
 @cast function pw(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
     config = materialize(cfgfile)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        mpi = config.mpi,
-        options = config.pw,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.pw)
     return run(cmd)
 end
 
 @cast function ph(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
     config = materialize(cfgfile)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        mpi = config.mpi,
-        options = config.ph,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.ph)
     return run(cmd)
 end
 
@@ -83,13 +71,8 @@ end
     cfgfile = "",
 )
     config = materialize(cfgfile)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        mpi = config.mpi,
-        options = config.q2r,
-    )
+    cmd =
+        makecmd(input; output = output, error = error, mpi = config.mpi, main = config.q2r)
     return run(cmd)
 end
 
@@ -105,13 +88,13 @@ end
         output = output,
         error = error,
         mpi = config.mpi,
-        options = config.matdyn,
+        main = config.matdyn,
     )
     return run(cmd)
 end
 
 function materialize(cfgfile)
-    options = if isfile(expanduser(cfgfile))
+    return if isfile(expanduser(cfgfile))
         dict = load(expanduser(cfgfile))
         from_dict(QuantumESPRESSOCliConfig, dict)
     else
@@ -123,26 +106,26 @@ function makecmd(
     input;
     output = tempname(; cleanup = false),
     error = "",
-    mpi = MpiexecOptions(),
-    options = PwxConfig(),
+    mpi = MpiexecConfig(),
+    main,
 )
     if mpi.np == 0
-        args = [options.exe]
+        args = [main.exe]
     else
         args = [mpi.exe, "-n", string(mpi.np)]
         for (k, v) in mpi.options
             push!(args, k, string(v))
         end
-        push!(args, options.exe)
+        push!(args, main.exe)
     end
-    for f in fieldnames(PwxOptions)
-        v = getfield(options.options, f)
+    for f in fieldnames(ParallelizationFlags)
+        v = getfield(main.options, f)
         if !iszero(v)
             push!(args, "-$f", string(v))
         end
     end
     dir = expanduser(dirname(input))
-    if !isempty(options.script_dest)
+    if !isempty(main.script_dest)
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
@@ -152,9 +135,9 @@ function makecmd(
             mkpath(dir)
         end
         str = join(args, " ")
-        write(options.script_dest, str)
-        chmod(options.script_dest, 0o755)
-        return setenv(Cmd([abspath(options.script_dest)]); dir = dir)
+        write(main.script_dest, str)
+        chmod(main.script_dest, 0o755)
+        return setenv(Cmd([abspath(main.script_dest)]); dir = dir)
     else
         push!(args, "-inp", "$input")
         return pipeline(setenv(Cmd(args); dir = dir), stdout = output, stderr = error)
