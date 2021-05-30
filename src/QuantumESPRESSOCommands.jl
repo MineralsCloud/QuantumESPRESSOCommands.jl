@@ -99,6 +99,7 @@ function readconfig(cfgfile)
         dict = load(cfgfile)
         from_dict(QuantumESPRESSOCliConfig, dict)
     else
+        @warn "file $cfgfile not found! We will use default options!"
         QuantumESPRESSOCliConfig()
     end
 end
