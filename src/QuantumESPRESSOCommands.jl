@@ -48,45 +48,145 @@ end
     matdyn::MatdynxConfig = MatdynxConfig()
 end
 
-@cast function pw(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
-    config = readconfig(cfgfile)
-    cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.pw)
-    return run(cmd)
+# There are three directories, `pwd()`, the location of `cfgfile`, and the location of `input`.
+@cast function pw(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    as_script = "",
+    mpi = MpiexecConfig(),
+    config = PwxConfig(),
+    cfgfile = "",
+)
+    if isempty(cfgfile)
+        cmd = makecmd(
+            input;
+            output = output,
+            error = error,
+            as_script = as_script,
+            mpi = mpi,
+            main = config,
+        )
+        return run(cmd)
+    else
+        config = readconfig(cfgfile)
+        cd(expanduser(dirname(cfgfile))) do
+            cmd = makecmd(
+                input;
+                output = output,
+                error = error,
+                as_script = as_script,
+                mpi = config.mpi,
+                main = config.pw,
+            )
+            return run(cmd)
+        end
+    end
 end
 
-@cast function ph(input, output = tempname(; cleanup = false), error = output; cfgfile = "")
-    config = readconfig(cfgfile)
-    cmd = makecmd(input; output = output, error = error, mpi = config.mpi, main = config.ph)
-    return run(cmd)
+@cast function ph(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    as_script = "",
+    mpi = MpiexecConfig(),
+    config = PhxConfig(),
+    cfgfile = "",
+)
+    if isempty(cfgfile)
+        cmd = makecmd(
+            input;
+            output = output,
+            error = error,
+            as_script = as_script,
+            mpi = mpi,
+            main = config,
+        )
+        return run(cmd)
+    else
+        config = readconfig(cfgfile)
+        cd(expanduser(dirname(cfgfile))) do
+            cmd = makecmd(
+                input;
+                output = output,
+                error = error,
+                as_script = as_script,
+                mpi = config.mpi,
+                main = config.ph,
+            )
+            return run(cmd)
+        end
+    end
 end
 
 @cast function q2r(
     input,
     output = tempname(; cleanup = false),
     error = output;
+    as_script = "",
+    mpi = MpiexecConfig(),
+    config = Q2rxConfig(),
     cfgfile = "",
 )
-    config = readconfig(cfgfile)
-    cmd =
-        makecmd(input; output = output, error = error, mpi = config.mpi, main = config.q2r)
-    return run(cmd)
+    if isempty(cfgfile)
+        cmd = makecmd(
+            input;
+            output = output,
+            error = error,
+            as_script = as_script,
+            mpi = mpi,
+            main = config,
+        )
+        return run(cmd)
+    else
+        config = readconfig(cfgfile)
+        cd(expanduser(dirname(cfgfile))) do
+            cmd = makecmd(
+                input;
+                output = output,
+                error = error,
+                as_script = as_script,
+                mpi = config.mpi,
+                main = config.q2r,
+            )
+            return run(cmd)
+        end
+    end
 end
 
 @cast function matdyn(
     input,
     output = tempname(; cleanup = false),
     error = output;
+    as_script = "",
+    mpi = MpiexecConfig(),
+    config = MatdynxConfig(),
     cfgfile = "",
 )
-    config = readconfig(cfgfile)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        mpi = config.mpi,
-        main = config.matdyn,
-    )
-    return run(cmd)
+    if isempty(cfgfile)
+        cmd = makecmd(
+            input;
+            output = output,
+            error = error,
+            as_script = as_script,
+            mpi = mpi,
+            main = config,
+        )
+        return run(cmd)
+    else
+        config = readconfig(cfgfile)
+        cd(expanduser(dirname(cfgfile))) do
+            cmd = makecmd(
+                input;
+                output = output,
+                error = error,
+                as_script = as_script,
+                mpi = config.mpi,
+                main = config.matdyn,
+            )
+            return run(cmd)
+        end
+    end
 end
 
 function readconfig(cfgfile)
