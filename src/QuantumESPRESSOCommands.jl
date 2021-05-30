@@ -246,6 +246,7 @@ function makecmd(
     input;
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output,
+    dir = expanduser(dirname(input)),
     use_script = false,
     mpi = MpiexecConfig(),
     main,
@@ -265,7 +266,6 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    dir = main.chdir ? expanduser(dirname(input)) : pwd()
     if !use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
