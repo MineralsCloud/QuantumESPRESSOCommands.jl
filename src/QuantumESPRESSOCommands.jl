@@ -58,7 +58,7 @@ end
 # There are three directories, `pwd()`, the location of `cfgfile`, and the location of `input`.
 @cast function pw(
     input,
-    output = tempname(; cleanup = false),
+    output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
     as_script = "",
     mpi = MpiexecConfig(),
@@ -93,7 +93,7 @@ end
 
 @cast function ph(
     input,
-    output = tempname(; cleanup = false),
+    output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
     as_script = "",
     mpi = MpiexecConfig(),
@@ -128,7 +128,7 @@ end
 
 @cast function q2r(
     input,
-    output = tempname(; cleanup = false),
+    output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
     as_script = "",
     mpi = MpiexecConfig(),
@@ -163,7 +163,7 @@ end
 
 @cast function matdyn(
     input,
-    output = tempname(; cleanup = false),
+    output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
     as_script = "",
     mpi = MpiexecConfig(),
@@ -198,7 +198,7 @@ end
 
 @cast function dynmat(
     input,
-    output = tempname(; cleanup = false),
+    output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
     as_script = "",
     mpi = MpiexecConfig(),
@@ -244,8 +244,8 @@ end
 
 function makecmd(
     input;
-    output = tempname(; cleanup = false),
-    error = "",
+    output = tempname(expanduser(dirname(input)); cleanup = false),
+    error = output,
     as_script = "",
     mpi = MpiexecConfig(),
     main,
