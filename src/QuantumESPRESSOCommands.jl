@@ -7,7 +7,7 @@ using Configurations: from_dict, @option
 
 export pw, ph, q2r, matdyn
 
-@option struct PwxOptions
+@option struct ParallelizationOptions
     nimage::UInt = 0
     npool::UInt = 0
     ntg::UInt = 0
@@ -20,28 +20,28 @@ end
     exe::String = "pw.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationOptions = ParallelizationOptions()
 end
 
 @option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationOptions = ParallelizationOptions()
 end
 
 @option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationOptions = ParallelizationOptions()
 end
 
 @option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
     script_dest::String = ""
     chdir::Bool = true
-    options::PwxOptions = PwxOptions()
+    options::ParallelizationOptions = ParallelizationOptions()
 end
 
 @option struct QuantumESPRESSOCliConfig <: CommandConfig
@@ -135,7 +135,7 @@ function makecmd(
         end
         push!(args, options.exe)
     end
-    for f in fieldnames(PwxOptions)
+    for f in fieldnames(ParallelizationOptions)
         v = getfield(options.options, f)
         if !iszero(v)
             push!(args, "-$f", string(v))
