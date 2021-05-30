@@ -1,7 +1,7 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: load
-using AbInitioSoftwareBase.Cli: CliConfig, MpiexecOptions
+using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
@@ -44,8 +44,8 @@ end
     options::PwxOptions = PwxOptions()
 end
 
-@option struct QuantumESPRESSOCliConfig <: CliConfig
-    mpi::MpiexecOptions = MpiexecOptions()
+@option struct QuantumESPRESSOCliConfig <: CommandConfig
+    mpi::MpiexecConfig = MpiexecConfig()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
@@ -123,7 +123,7 @@ function makecmd(
     input;
     output = tempname(; cleanup = false),
     error = "",
-    mpi = MpiexecOptions(),
+    mpi = MpiexecConfig(),
     options = PwxConfig(),
 )
     if mpi.np == 0
