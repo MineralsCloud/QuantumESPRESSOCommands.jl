@@ -123,7 +123,7 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    dir = expanduser(dirname(input))
+    dir = main.chdir ? expanduser(dirname(input)) : pwd()
     if !isempty(as_script)
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
