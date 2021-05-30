@@ -5,7 +5,7 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
 
-export pw, ph, q2r, matdyn
+export pw, ph, q2r, matdyn, dynmat
 
 @option struct ParallelizationFlags
     nimage::UInt = 0
@@ -40,12 +40,19 @@ end
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
+@option struct DynmatxConfig <: CommandConfig
+    exe::String = "dynmat.x"
+    chdir::Bool = true
+    options::ParallelizationFlags = ParallelizationFlags()
+end
+
 @option struct QuantumESPRESSOCliConfig <: CommandConfig
     mpi::MpiexecConfig = MpiexecConfig()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
     q2r::Q2rxConfig = Q2rxConfig()
     matdyn::MatdynxConfig = MatdynxConfig()
+    dynmat::DynmatxConfig = DynmatxConfig()
 end
 
 # There are three directories, `pwd()`, the location of `cfgfile`, and the location of `input`.
@@ -183,6 +190,41 @@ end
                 as_script = as_script,
                 mpi = config.mpi,
                 main = config.matdyn,
+            )
+            return run(cmd)
+        end
+    end
+end
+
+@cast function dynmat(
+    input,
+    output = tempname(; cleanup = false),
+    error = output;
+    as_script = "",
+    mpi = MpiexecConfig(),
+    config = DynmatxConfig(),
+    cfgfile = "",
+)
+    if isempty(cfgfile)
+        cmd = makecmd(
+            input;
+            output = output,
+            error = error,
+            as_script = as_script,
+            mpi = mpi,
+            main = config,
+        )
+        return run(cmd)
+    else
+        config = readconfig(cfgfile)
+        cd(expanduser(dirname(cfgfile))) do
+            cmd = makecmd(
+                input;
+                output = output,
+                error = error,
+                as_script = as_script,
+                mpi = config.mpi,
+                main = config.dynmat,
             )
             return run(cmd)
         end
