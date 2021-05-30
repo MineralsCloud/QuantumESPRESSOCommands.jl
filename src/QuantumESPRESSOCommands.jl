@@ -221,17 +221,21 @@ function makecmd(
                 push!(args, k, "'$v'")
             end
         end
+        str = join(args, " ")
         if !isdir(dir)
             mkpath(dir)
         end
-        str = join(args, " ")
         script, io = mktemp(dir)
         write(io, str)
         chmod(script, 0o755)
-        return setenv(Cmd([abspath(script)]), ENV; dir = dir)
+        return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
         push!(args, "-inp", "$input")
-        return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
+        return pipeline(
+            setenv(Cmd(args), ENV; dir = abspath(dir)),
+            stdout = output,
+            stderr = error,
+        )
     end
 end
 
