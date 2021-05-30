@@ -16,28 +16,28 @@ export pw, ph, q2r, matdyn
     ndiag::UInt = 0
 end
 
-@option struct PwxConfig
+@option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
     script_dest::String = ""
     chdir::Bool = true
     options::PwxOptions = PwxOptions()
 end
 
-@option struct PhxConfig
+@option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
     script_dest::String = ""
     chdir::Bool = true
     options::PwxOptions = PwxOptions()
 end
 
-@option struct Q2rxConfig
+@option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
     script_dest::String = ""
     chdir::Bool = true
     options::PwxOptions = PwxOptions()
 end
 
-@option struct MatdynxConfig
+@option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
     script_dest::String = ""
     chdir::Bool = true
