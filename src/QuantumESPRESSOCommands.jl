@@ -46,7 +46,7 @@ end
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
-@option struct QuantumESPRESSOCliConfig <: CommandConfig
+@option struct QuantumESPRESSOConfig <: CommandConfig
     mpi::MpiexecConfig = MpiexecConfig()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
@@ -184,10 +184,10 @@ function readconfig(cfgfile)
     cfgfile = expanduser(cfgfile)
     return if isfile(cfgfile)
         dict = load(cfgfile)
-        from_dict(QuantumESPRESSOCliConfig, dict)
+        from_dict(QuantumESPRESSOConfig, dict)
     else
         @warn "file $cfgfile not found! We will use default options!"
-        QuantumESPRESSOCliConfig()
+        QuantumESPRESSOConfig()
     end
 end
 
