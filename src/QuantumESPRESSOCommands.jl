@@ -60,7 +60,7 @@ end
     input,
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     config = PwxConfig(),
     cfgfile = "",
@@ -70,7 +70,7 @@ end
             input;
             output = output,
             error = error,
-            as_script = as_script,
+            use_script = use_script,
             mpi = mpi,
             main = config,
         )
@@ -82,7 +82,7 @@ end
                 input;
                 output = output,
                 error = error,
-                as_script = as_script,
+                use_script = use_script,
                 mpi = config.mpi,
                 main = config.pw,
             )
@@ -95,7 +95,7 @@ end
     input,
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     config = PhxConfig(),
     cfgfile = "",
@@ -105,7 +105,7 @@ end
             input;
             output = output,
             error = error,
-            as_script = as_script,
+            use_script = use_script,
             mpi = mpi,
             main = config,
         )
@@ -117,7 +117,7 @@ end
                 input;
                 output = output,
                 error = error,
-                as_script = as_script,
+                use_script = use_script,
                 mpi = config.mpi,
                 main = config.ph,
             )
@@ -130,7 +130,7 @@ end
     input,
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     config = Q2rxConfig(),
     cfgfile = "",
@@ -140,7 +140,7 @@ end
             input;
             output = output,
             error = error,
-            as_script = as_script,
+            use_script = use_script,
             mpi = mpi,
             main = config,
         )
@@ -152,7 +152,7 @@ end
                 input;
                 output = output,
                 error = error,
-                as_script = as_script,
+                use_script = use_script,
                 mpi = config.mpi,
                 main = config.q2r,
             )
@@ -165,7 +165,7 @@ end
     input,
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     config = MatdynxConfig(),
     cfgfile = "",
@@ -175,7 +175,7 @@ end
             input;
             output = output,
             error = error,
-            as_script = as_script,
+            use_script = use_script,
             mpi = mpi,
             main = config,
         )
@@ -187,7 +187,7 @@ end
                 input;
                 output = output,
                 error = error,
-                as_script = as_script,
+                use_script = use_script,
                 mpi = config.mpi,
                 main = config.matdyn,
             )
@@ -200,7 +200,7 @@ end
     input,
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     config = DynmatxConfig(),
     cfgfile = "",
@@ -210,7 +210,7 @@ end
             input;
             output = output,
             error = error,
-            as_script = as_script,
+            use_script = use_script,
             mpi = mpi,
             main = config,
         )
@@ -222,7 +222,7 @@ end
                 input;
                 output = output,
                 error = error,
-                as_script = as_script,
+                use_script = use_script,
                 mpi = config.mpi,
                 main = config.dynmat,
             )
@@ -246,7 +246,7 @@ function makecmd(
     input;
     output = tempname(expanduser(dirname(input)); cleanup = false),
     error = output,
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
     main,
 )
@@ -266,7 +266,7 @@ function makecmd(
         end
     end
     dir = main.chdir ? expanduser(dirname(input)) : pwd()
-    if !isempty(as_script)
+    if !use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
@@ -276,9 +276,10 @@ function makecmd(
             mkpath(dir)
         end
         str = join(args, " ")
-        write(as_script, str)
-        chmod(as_script, 0o755)
-        return setenv(Cmd([abspath(as_script)]), ENV; dir = dir)
+        script = tempname(dir; cleanup = false)
+        write(script, str)
+        chmod(script, 0o755)
+        return setenv(Cmd([abspath(script)]), ENV; dir = dir)
     else
         push!(args, "-inp", "$input")
         return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
