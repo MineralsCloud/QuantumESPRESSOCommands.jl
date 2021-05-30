@@ -18,28 +18,24 @@ end
 
 @option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
-    script_dest::String = ""
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
 @option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
-    script_dest::String = ""
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
 @option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
-    script_dest::String = ""
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
 @option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
-    script_dest::String = ""
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
 end
@@ -108,6 +104,7 @@ function makecmd(
     input;
     output = tempname(; cleanup = false),
     error = "",
+    as_script = "",
     mpi = MpiexecConfig(),
     main,
 )
@@ -127,7 +124,7 @@ function makecmd(
         end
     end
     dir = expanduser(dirname(input))
-    if !isempty(main.script_dest)
+    if !isempty(as_script)
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
@@ -137,9 +134,9 @@ function makecmd(
             mkpath(dir)
         end
         str = join(args, " ")
-        write(main.script_dest, str)
-        chmod(main.script_dest, 0o755)
-        return setenv(Cmd([abspath(main.script_dest)]), ENV; dir = dir)
+        write(as_script, str)
+        chmod(as_script, 0o755)
+        return setenv(Cmd([abspath(as_script)]), ENV; dir = dir)
     else
         push!(args, "-inp", "$input")
         return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
