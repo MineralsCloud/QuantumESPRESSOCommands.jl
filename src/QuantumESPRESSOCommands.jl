@@ -57,7 +57,7 @@ end
 
 @cast function pw(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -82,7 +82,7 @@ end
 
 @cast function ph(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -107,7 +107,7 @@ end
 
 @cast function q2r(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -132,7 +132,7 @@ end
 
 @cast function matdyn(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -157,7 +157,7 @@ end
 
 @cast function dynmat(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -193,7 +193,7 @@ end
 
 function makecmd(
     input;
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = tempname(expanduser(dirname(input))),
     error = output,
     dir = expanduser(dirname(input)),
     use_script = false,
@@ -225,7 +225,7 @@ function makecmd(
             mkpath(dir)
         end
         str = join(args, " ")
-        script = tempname(dir; cleanup = false)
+        script = tempname(dir)
         write(script, str)
         chmod(script, 0o755)
         return setenv(Cmd([abspath(script)]), ENV; dir = dir)
