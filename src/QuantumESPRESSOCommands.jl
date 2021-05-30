@@ -137,10 +137,10 @@ function makecmd(
         str = join(args, " ")
         write(main.script_dest, str)
         chmod(main.script_dest, 0o755)
-        return setenv(Cmd([abspath(main.script_dest)]); dir = dir)
+        return setenv(Cmd([abspath(main.script_dest)]), ENV; dir = dir)
     else
         push!(args, "-inp", "$input")
-        return pipeline(setenv(Cmd(args); dir = dir), stdout = output, stderr = error)
+        return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
     end
 end
 
