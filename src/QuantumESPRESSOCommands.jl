@@ -57,7 +57,7 @@ end
 
 @cast function pw(
     input,
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -72,7 +72,7 @@ end
         input;
         output = output,
         error = error,
-        dir = expanduser(dirname(input)),
+        dir = parentdir(input),
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -82,7 +82,7 @@ end
 
 @cast function ph(
     input,
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -97,7 +97,7 @@ end
         input;
         output = output,
         error = error,
-        dir = expanduser(dirname(input)),
+        dir = parentdir(input),
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -107,7 +107,7 @@ end
 
 @cast function q2r(
     input,
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -122,7 +122,7 @@ end
         input;
         output = output,
         error = error,
-        dir = expanduser(dirname(input)),
+        dir = parentdir(input),
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -132,7 +132,7 @@ end
 
 @cast function matdyn(
     input,
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -147,7 +147,7 @@ end
         input;
         output = output,
         error = error,
-        dir = expanduser(dirname(input)),
+        dir = parentdir(input),
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -157,7 +157,7 @@ end
 
 @cast function dynmat(
     input,
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
@@ -172,7 +172,7 @@ end
         input;
         output = output,
         error = error,
-        dir = expanduser(dirname(input)),
+        dir = parentdir(input),
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -193,9 +193,9 @@ end
 
 function makecmd(
     input;
-    output = tempname(expanduser(dirname(input))),
+    output = tempname(parentdir(input)),
     error = output,
-    dir = expanduser(dirname(input)),
+    dir = parentdir(input),
     use_script = false,
     mpi = MpiexecConfig(),
     main,
@@ -233,6 +233,14 @@ function makecmd(
         push!(args, "-inp", "$input")
         return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
     end
+end
+
+function parentdir(file)
+    dir = dirname(expanduser(file))
+    if isempty(dir)
+        dir = pwd()
+    end
+    return abspath(dir)
 end
 
 """
