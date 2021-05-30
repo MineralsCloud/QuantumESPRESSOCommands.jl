@@ -55,180 +55,129 @@ end
     dynmat::DynmatxConfig = DynmatxConfig()
 end
 
-# There are three directories, `pwd()`, the location of `cfgfile`, and the location of `input`.
 @cast function pw(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
-    config = PwxConfig(),
+    main = PwxConfig(),
     cfgfile = "",
 )
-    if isempty(cfgfile)
-        cmd = makecmd(
-            input;
-            output = output,
-            error = error,
-            as_script = as_script,
-            mpi = mpi,
-            main = config,
-        )
-        return run(cmd)
-    else
+    if !isempty(cfgfile)
         config = readconfig(cfgfile)
-        cd(expanduser(dirname(cfgfile))) do
-            cmd = makecmd(
-                input;
-                output = output,
-                error = error,
-                as_script = as_script,
-                mpi = config.mpi,
-                main = config.pw,
-            )
-            return run(cmd)
-        end
+        mpi, main = config.mpi, config.pw
     end
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        dir = parentdir(input),
+        use_script = use_script,
+        mpi = mpi,
+        main = main,
+    )
+    return run(cmd)
 end
 
 @cast function ph(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
-    config = PhxConfig(),
+    main = PwxConfig(),
     cfgfile = "",
 )
-    if isempty(cfgfile)
-        cmd = makecmd(
-            input;
-            output = output,
-            error = error,
-            as_script = as_script,
-            mpi = mpi,
-            main = config,
-        )
-        return run(cmd)
-    else
+    if !isempty(cfgfile)
         config = readconfig(cfgfile)
-        cd(expanduser(dirname(cfgfile))) do
-            cmd = makecmd(
-                input;
-                output = output,
-                error = error,
-                as_script = as_script,
-                mpi = config.mpi,
-                main = config.ph,
-            )
-            return run(cmd)
-        end
+        mpi, main = config.mpi, config.ph
     end
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        dir = parentdir(input),
+        use_script = use_script,
+        mpi = mpi,
+        main = main,
+    )
+    return run(cmd)
 end
 
 @cast function q2r(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
-    config = Q2rxConfig(),
+    main = PwxConfig(),
     cfgfile = "",
 )
-    if isempty(cfgfile)
-        cmd = makecmd(
-            input;
-            output = output,
-            error = error,
-            as_script = as_script,
-            mpi = mpi,
-            main = config,
-        )
-        return run(cmd)
-    else
+    if !isempty(cfgfile)
         config = readconfig(cfgfile)
-        cd(expanduser(dirname(cfgfile))) do
-            cmd = makecmd(
-                input;
-                output = output,
-                error = error,
-                as_script = as_script,
-                mpi = config.mpi,
-                main = config.q2r,
-            )
-            return run(cmd)
-        end
+        mpi, main = config.mpi, config.q2r
     end
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        dir = parentdir(input),
+        use_script = use_script,
+        mpi = mpi,
+        main = main,
+    )
+    return run(cmd)
 end
 
 @cast function matdyn(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
-    config = MatdynxConfig(),
+    main = PwxConfig(),
     cfgfile = "",
 )
-    if isempty(cfgfile)
-        cmd = makecmd(
-            input;
-            output = output,
-            error = error,
-            as_script = as_script,
-            mpi = mpi,
-            main = config,
-        )
-        return run(cmd)
-    else
+    if !isempty(cfgfile)
         config = readconfig(cfgfile)
-        cd(expanduser(dirname(cfgfile))) do
-            cmd = makecmd(
-                input;
-                output = output,
-                error = error,
-                as_script = as_script,
-                mpi = config.mpi,
-                main = config.matdyn,
-            )
-            return run(cmd)
-        end
+        mpi, main = config.mpi, config.matdyn
     end
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        dir = parentdir(input),
+        use_script = use_script,
+        mpi = mpi,
+        main = main,
+    )
+    return run(cmd)
 end
 
 @cast function dynmat(
     input,
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output;
-    as_script = "",
+    use_script = false,
     mpi = MpiexecConfig(),
-    config = DynmatxConfig(),
+    main = PwxConfig(),
     cfgfile = "",
 )
-    if isempty(cfgfile)
-        cmd = makecmd(
-            input;
-            output = output,
-            error = error,
-            as_script = as_script,
-            mpi = mpi,
-            main = config,
-        )
-        return run(cmd)
-    else
+    if !isempty(cfgfile)
         config = readconfig(cfgfile)
-        cd(expanduser(dirname(cfgfile))) do
-            cmd = makecmd(
-                input;
-                output = output,
-                error = error,
-                as_script = as_script,
-                mpi = config.mpi,
-                main = config.dynmat,
-            )
-            return run(cmd)
-        end
+        mpi, main = config.mpi, config.dynmat
     end
+    cmd = makecmd(
+        input;
+        output = output,
+        error = error,
+        dir = parentdir(input),
+        use_script = use_script,
+        mpi = mpi,
+        main = main,
+    )
+    return run(cmd)
 end
 
 function readconfig(cfgfile)
@@ -244,9 +193,10 @@ end
 
 function makecmd(
     input;
-    output = tempname(expanduser(dirname(input)); cleanup = false),
+    output = mktemp(parentdir(input))[1],
     error = output,
-    as_script = "",
+    dir = parentdir(input),
+    use_script = false,
     mpi = MpiexecConfig(),
     main,
 )
@@ -265,24 +215,36 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    dir = main.chdir ? expanduser(dirname(input)) : pwd()
-    if !isempty(as_script)
+    if !use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
             end
         end
+        str = join(args, " ")
         if !isdir(dir)
             mkpath(dir)
         end
-        str = join(args, " ")
-        write(as_script, str)
-        chmod(as_script, 0o755)
-        return setenv(Cmd([abspath(as_script)]), ENV; dir = dir)
+        script, io = mktemp(dir)
+        write(io, str)
+        chmod(script, 0o755)
+        return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
         push!(args, "-inp", "$input")
-        return pipeline(setenv(Cmd(args), ENV; dir = dir), stdout = output, stderr = error)
+        return pipeline(
+            setenv(Cmd(args), ENV; dir = abspath(dir)),
+            stdout = output,
+            stderr = error,
+        )
     end
+end
+
+function parentdir(file)
+    dir = dirname(expanduser(file))
+    if isempty(dir)
+        dir = pwd()
+    end
+    return abspath(dir)
 end
 
 """
