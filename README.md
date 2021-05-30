@@ -13,7 +13,7 @@
 <p>
 QuantumESPRESSOCommands is a &nbsp;
     <a href="https://julialang.org">
-        <img src="https://julialang.org/favicon.ico" width="16em">
+        <img src="https://julialang.org/assets/infra/julia.ico" width="16em">
         Julia Language
     </a>
     &nbsp; package. To install QuantumESPRESSOCommands,
