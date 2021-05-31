@@ -1,6 +1,6 @@
 module QuantumESPRESSOCommands
 
-using AbInitioSoftwareBase: load
+using AbInitioSoftwareBase: load, parentdir
 using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
@@ -237,14 +237,6 @@ function makecmd(
             stderr = error,
         )
     end
-end
-
-function parentdir(file)
-    dir = dirname(expanduser(file))
-    if isempty(dir)
-        dir = pwd()
-    end
-    return abspath(dir)
 end
 
 """
