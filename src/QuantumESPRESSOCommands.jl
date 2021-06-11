@@ -137,7 +137,7 @@ Run command `pw.x` with input, output, and error files, and other configurations
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -164,7 +164,7 @@ Run command `ph.x` with input, output, and error files, and other configurations
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = PhxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -175,7 +175,7 @@ Run command `ph.x` with input, output, and error files, and other configurations
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -202,7 +202,7 @@ Run command `q2r.x` with input, output, and error files, and other configuration
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = Q2rxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -213,7 +213,7 @@ Run command `q2r.x` with input, output, and error files, and other configuration
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -240,7 +240,7 @@ Run command `matdyn.x` with input, output, and error files, and other configurat
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = MatdynxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -251,7 +251,7 @@ Run command `matdyn.x` with input, output, and error files, and other configurat
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -278,7 +278,7 @@ Run command `dynmat.x` with input, output, and error files, and other configurat
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = DynmatxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -289,7 +289,7 @@ Run command `dynmat.x` with input, output, and error files, and other configurat
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -351,7 +351,7 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    if !use_script
+    if use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
@@ -363,6 +363,7 @@ function makecmd(
         end
         script, io = mktemp(dir)
         write(io, str)
+        close(io)
         chmod(script, 0o755)
         return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
