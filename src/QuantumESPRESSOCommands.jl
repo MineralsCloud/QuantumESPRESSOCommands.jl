@@ -164,7 +164,7 @@ Run command `ph.x` with input, output, and error files, and other configurations
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = PhxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -202,7 +202,7 @@ Run command `q2r.x` with input, output, and error files, and other configuration
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = Q2rxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -240,7 +240,7 @@ Run command `matdyn.x` with input, output, and error files, and other configurat
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = MatdynxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
@@ -278,7 +278,7 @@ Run command `dynmat.x` with input, output, and error files, and other configurat
     error = output;
     use_script = false,
     mpi = MpiexecConfig(),
-    main = PwxConfig(),
+    main = DynmatxConfig(),
     cfgfile = "",
 )
     if !isempty(cfgfile)
