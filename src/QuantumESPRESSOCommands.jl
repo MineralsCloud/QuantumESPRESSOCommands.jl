@@ -119,7 +119,7 @@ end
 """
     pw(input, output, error; use_script, mpi, main, cfgfile)
 
-Run command `pw.x` with input, output, and error files, and other configurations.
+Run command `pw.x`.
 
 # Arguments
 - `input`: the path to the input file.
@@ -158,7 +158,7 @@ end
 """
     ph(input, output, error; use_script, mpi, main, cfgfile)
 
-Run command `ph.x` with input, output, and error files, and other configurations.
+Run command `ph.x`.
 
 # Arguments
 - `input`: the path to the input file.
@@ -197,7 +197,7 @@ end
 """
     q2r(input, output, error; use_script, mpi, main, cfgfile)
 
-Run command `q2r.x` with input, output, and error files, and other configurations.
+Run command `q2r.x`.
 
 # Arguments
 - `input`: the path to the input file.
@@ -236,7 +236,7 @@ end
 """
     matdyn(input, output, error; use_script, mpi, main, cfgfile)
 
-Run command `matdyn.x` with input, output, and error files, and other configurations.
+Run command `matdyn.x`.
 
 # Arguments
 - `input`: the path to the input file.
@@ -276,7 +276,7 @@ end
 """
     dynmat(input, output, error; use_script, mpi, main, cfgfile)
 
-Run command `dynmat.x` with input, output, and error files, and other configurations.
+Run command `dynmat.x`.
 
 # Arguments
 - `input`: the path to the input file.
@@ -317,7 +317,7 @@ end
 """
     readconfig(cfgfile)
 
-Read the configurations into a `QuantumESPRESSOConfig` object from a file `cfgfile`.
+Read the configurations into an object from a file `cfgfile`.
 """
 function readconfig(cfgfile)
     cfgfile = expanduser(cfgfile)
