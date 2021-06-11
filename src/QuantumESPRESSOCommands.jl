@@ -137,7 +137,7 @@ Run command `pw.x` with input, output, and error files, and other configurations
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -175,7 +175,7 @@ Run command `ph.x` with input, output, and error files, and other configurations
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -213,7 +213,7 @@ Run command `q2r.x` with input, output, and error files, and other configuration
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -251,7 +251,7 @@ Run command `matdyn.x` with input, output, and error files, and other configurat
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
@@ -289,7 +289,7 @@ Run command `dynmat.x` with input, output, and error files, and other configurat
         input;
         output = output,
         error = error,
-        dir = parentdir(input),
+        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
         use_script = use_script,
         mpi = mpi,
         main = main,
