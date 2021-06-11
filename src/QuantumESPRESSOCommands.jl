@@ -363,6 +363,7 @@ function makecmd(
         end
         script, io = mktemp(dir)
         write(io, str)
+        close(io)
         chmod(script, 0o755)
         return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
