@@ -6,9 +6,18 @@ CurrentModule = QuantumESPRESSOCommands
 
 Documentation for [QuantumESPRESSOCommands](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl).
 
-```@index
+## Manual Outline
+
+```@contents
+Pages = [
+    "installation.md",
+    "develop.md",
+    "api.md",
+]
+Depth = 3
 ```
 
-```@autodocs
-Modules = [QuantumESPRESSOCommands]
+## Index
+
+```@index
 ```
