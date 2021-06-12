@@ -136,13 +136,13 @@ Run command `pw.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     use_script = false,
-    mpi = MpiexecConfig(),
-    main = PwxConfig(),
     cfgfile = "",
 )
-    if !isempty(cfgfile)
+    mpi, main = if isempty(cfgfile)
+        MpiexecConfig(), PwxConfig()
+    else
         config = readconfig(cfgfile)
-        mpi, main = config.mpi, config.pw
+        config.mpi, config.pw
     end
     cmd = makecmd(
         input;
@@ -175,13 +175,13 @@ Run command `ph.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     use_script = false,
-    mpi = MpiexecConfig(),
-    main = PhxConfig(),
     cfgfile = "",
 )
-    if !isempty(cfgfile)
+    mpi, main = if isempty(cfgfile)
+        MpiexecConfig(), PhxConfig()
+    else
         config = readconfig(cfgfile)
-        mpi, main = config.mpi, config.ph
+        config.mpi, config.ph
     end
     cmd = makecmd(
         input;
@@ -214,13 +214,13 @@ Run command `q2r.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     use_script = false,
-    mpi = MpiexecConfig(),
-    main = Q2rxConfig(),
     cfgfile = "",
 )
-    if !isempty(cfgfile)
+    mpi, main = if isempty(cfgfile)
+        MpiexecConfig(), Q2rxConfig()
+    else
         config = readconfig(cfgfile)
-        mpi, main = config.mpi, config.q2r
+        config.mpi, config.q2r
     end
     cmd = makecmd(
         input;
@@ -254,13 +254,13 @@ Run command `matdyn.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     use_script = false,
-    mpi = MpiexecConfig(),
-    main = MatdynxConfig(),
     cfgfile = "",
 )
-    if !isempty(cfgfile)
+    mpi, main = if isempty(cfgfile)
+        MpiexecConfig(), MatdynxConfig()
+    else
         config = readconfig(cfgfile)
-        mpi, main = config.mpi, config.matdyn
+        config.mpi, config.matdyn
     end
     cmd = makecmd(
         input;
@@ -294,13 +294,13 @@ Run command `dynmat.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     use_script = false,
-    mpi = MpiexecConfig(),
-    main = DynmatxConfig(),
     cfgfile = "",
 )
-    if !isempty(cfgfile)
+    mpi, main = if isempty(cfgfile)
+        MpiexecConfig(), DynmatxConfig()
+    else
         config = readconfig(cfgfile)
-        mpi, main = config.mpi, config.dynmat
+        config.mpi, config.dynmat
     end
     cmd = makecmd(
         input;
