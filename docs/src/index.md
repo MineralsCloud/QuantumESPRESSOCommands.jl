@@ -39,6 +39,7 @@ to your `.zshrc` as well.
 Pages = [
     "installation.md",
     "develop.md",
+    "usage.md",
     "api.md",
 ]
 Depth = 3
