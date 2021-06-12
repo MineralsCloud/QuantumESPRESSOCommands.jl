@@ -1,5 +1,5 @@
 using AbInitioSoftwareBase.Commands: MpiexecConfig
-using QuantumESPRESSOCommands
+using QuantumESPRESSOCommands: ParallelizationFlags, PwxConfig, makecmd
 using Test
 
 @testset "QuantumESPRESSOCommands.jl" begin
