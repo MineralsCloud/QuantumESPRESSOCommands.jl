@@ -28,10 +28,10 @@ Create configurations for `pw.x`.
 
 # Arguments
 - `exe::String="pw.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is stored when
-  running `pw.x`. If `false`, stay in the current directory.
-- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization flags of
-  `pw.x`.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `pw.x`. If `false`, stay in the current directory.
+- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
+  flags of `pw.x`.
 """
 @option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
@@ -45,10 +45,10 @@ Create configurations for `ph.x`.
 
 # Arguments
 - `exe::String="ph.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is stored when
-  running `ph.x`. If `false`, stay in the current directory.
-- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization flags of
-  `ph.x`.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `ph.x`. If `false`, stay in the current directory.
+- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
+  flags of `ph.x`.
 """
 @option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
@@ -62,10 +62,10 @@ Create configurations for `q2r.x`.
 
 # Arguments
 - `exe::String="q2r.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is stored when
-  running `q2r.x`. If `false`, stay in the current directory.
-- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization flags of
-  `q2r.x`.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `q2r.x`. If `false`, stay in the current directory.
+- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
+  flags of `q2r.x`.
 """
 @option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
@@ -79,10 +79,10 @@ Create configurations for `matdyn.x`.
 
 # Arguments
 - `exe::String="matdyn.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is stored when
-  running `matdyn.x`. If `false`, stay in the current directory.
-- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization flags of
-  `matdyn.x`.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `matdyn.x`. If `false`, stay in the current directory.
+- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
+  flags of `matdyn.x`.
 """
 @option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
@@ -96,10 +96,10 @@ Create configurations for `dynmat.x`.
 
 # Arguments
 - `exe::String="dynmat.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is stored when
-  running `dynmat.x`. If `false`, stay in the current directory.
-- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization flags of
-  `dynmat.x`.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `dynmat.x`. If `false`, stay in the current directory.
+- `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
+  flags of `dynmat.x`.
 """
 @option struct DynmatxConfig <: CommandConfig
     exe::String = "dynmat.x"
@@ -124,11 +124,13 @@ Run command `pw.x`.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under the
-  directory where the input file is stored, and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under the directory where the input file is stored, and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
-- `main=PwxConfig()`: the configurations of the main executable. In this case, `pw.x`.
+- `main=PwxConfig()`: the configurations of the main executable. In this case,
+  `pw.x`.
 - `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function pw(
@@ -163,11 +165,13 @@ Run command `ph.x`.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under the
-  directory where the input file is stored, and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under the directory where the input file is stored, and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
-- `main=PhxConfig()`: the configurations of the main executable. In this case, `ph.x`.
+- `main=PhxConfig()`: the configurations of the main executable. In this case,
+  `ph.x`.
 - `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function ph(
@@ -202,11 +206,13 @@ Run command `q2r.x`.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under the
-  directory where the input file is stored, and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under the directory where the input file is stored, and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
-- `main=Q2rxConfig()`: the configurations of the main executable. In this case, `q2r.x`.
+- `main=Q2rxConfig()`: the configurations of the main executable. In this case,
+  `q2r.x`.
 - `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function q2r(
@@ -241,12 +247,13 @@ Run command `matdyn.x`.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under the
-  directory where the input file is stored, and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under the directory where the input file is stored, and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
-- `main=MatdynxConfig()`: the configurations of the main executable. In this case,
-  `matdyn.x`.
+- `main=MatdynxConfig()`: the configurations of the main executable. In this
+  case, `matdyn.x`.
 - `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function matdyn(
@@ -281,12 +288,13 @@ Run command `dynmat.x`.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under the
-  directory where the input file is stored, and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under the directory where the input file is stored, and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
-- `main=DynmatxConfig()`: the configurations of the main executable. In this case,
-  `dynmat.x`.
+- `main=DynmatxConfig()`: the configurations of the main executable. In this
+  case, `dynmat.x`.
 - `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function dynmat(
@@ -338,11 +346,12 @@ Make commands for QuantumESPRESSO executables.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the output file.
-- `dir=parentdir(input)`: change the working directory to `dir`. By default, it is the
-  directory where the input file is stored.
-- `use_script=false`: if `true`, generate a shell script (with a random name) under `dir`
-  and run it.
+- `error=output`: the path to the error file. By default, it logs into the
+  output file.
+- `dir=parentdir(input)`: change the working directory to `dir`. By default, it
+  is the directory where the input file is stored.
+- `use_script=false`: if `true`, generate a shell script (with a random name)
+  under `dir` and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
