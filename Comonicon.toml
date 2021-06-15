@@ -1,6 +1,6 @@
 name = "qe"
 
 [install]
-completion = true
+completion = false
 quiet = false
 optimize = 2
