@@ -383,7 +383,6 @@ function makecmd(
     output = mktemp(parentdir(input))[1],
     error = output,
     dir = parentdir(input),
-    use_script = false,
     mpi = MpiexecConfig(),
     main,
 )
