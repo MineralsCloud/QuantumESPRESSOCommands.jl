@@ -7,16 +7,14 @@ using Test
         "scf.in";
         output = "scf.out",
         mpi = MpiexecConfig(; np = 8),
-        main = PwxConfig(),
-        use_script = false,
+        main = PwxConfig(; use_script = false),
     ).cmd.cmd.exec == ["mpiexec", "-n", "8", "pw.x", "-inp", "scf.in"]
     file = first(
         makecmd(
             "scf.in";
             output = "scf.out",
             mpi = MpiexecConfig(; np = 8),
-            main = PwxConfig(),
-            use_script = true,
+            main = PwxConfig(; use_script = true),
         ).exec,
     )
     @test isfile(file)
@@ -25,8 +23,10 @@ using Test
         "scf.in";
         output = "scf.out",
         mpi = MpiexecConfig(; np = 8),
-        main = PwxConfig(; options = ParallelizationFlags(; nimage = 8)),
-        use_script = false,
+        main = PwxConfig(;
+            options = ParallelizationFlags(; nimage = 8),
+            use_script = false,
+        ),
     ).cmd.cmd.exec == ["mpiexec", "-n", "8", "pw.x", "-nimage", "8", "-inp", "scf.in"]
     file = first(
         makecmd(
@@ -34,8 +34,10 @@ using Test
             output = "scf.out",
             error = "scf.err",
             mpi = MpiexecConfig(),
-            main = PwxConfig(; options = ParallelizationFlags(; nimage = 8)),
-            use_script = true,
+            main = PwxConfig(;
+                options = ParallelizationFlags(; nimage = 8),
+                use_script = true,
+            ),
         ).exec,
     )
     @test isfile(file)
