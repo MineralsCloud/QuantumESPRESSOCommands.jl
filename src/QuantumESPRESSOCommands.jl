@@ -358,22 +358,6 @@ function dynmat(
 end
 
 """
-    readconfig(cfgfile)
-
-Read the configurations into an object from a file `cfgfile`.
-"""
-function readconfig(cfgfile)
-    cfgfile = expanduser(cfgfile)
-    return if isfile(cfgfile)
-        dict = load(cfgfile)
-        from_dict(QuantumESPRESSOConfig, dict)
-    else
-        @warn "file $cfgfile not found! We will use default options!"
-        QuantumESPRESSOConfig()
-    end
-end
-
-"""
     makecmd(input; output, error, dir, use_script, mpi, main)
 
 Make commands for QuantumESPRESSO executables.
