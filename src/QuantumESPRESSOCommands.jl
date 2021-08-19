@@ -22,7 +22,7 @@ Construct parallelization flags of QuantumESPRESSO commands.
 end
 
 """
-    PwxConfig(; exe, chdir, options)
+    PwxConfig(; exe, chdir, use_script, options)
 
 Create configurations for `pw.x`.
 
@@ -30,6 +30,7 @@ Create configurations for `pw.x`.
 - `exe::String="pw.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `pw.x`. If `false`, stay in the current directory.
+- `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `pw.x`.
 """
@@ -40,7 +41,7 @@ Create configurations for `pw.x`.
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
-    PhxConfig(; exe, chdir, options)
+    PhxConfig(; exe, chdir, use_script, options)
 
 Create configurations for `ph.x`.
 
@@ -48,6 +49,7 @@ Create configurations for `ph.x`.
 - `exe::String="ph.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `ph.x`. If `false`, stay in the current directory.
+- `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `ph.x`.
 """
@@ -58,7 +60,7 @@ Create configurations for `ph.x`.
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
-    Q2rxConfig(; exe, chdir, options)
+    Q2rxConfig(; exe, chdir, use_script, options)
 
 Create configurations for `q2r.x`.
 
@@ -66,6 +68,7 @@ Create configurations for `q2r.x`.
 - `exe::String="q2r.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `q2r.x`. If `false`, stay in the current directory.
+- `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `q2r.x`.
 """
@@ -76,7 +79,7 @@ Create configurations for `q2r.x`.
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
-    MatdynxConfig(; exe, chdir, options)
+    MatdynxConfig(; exe, chdir, use_script, options)
 
 Create configurations for `matdyn.x`.
 
@@ -84,6 +87,7 @@ Create configurations for `matdyn.x`.
 - `exe::String="matdyn.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `matdyn.x`. If `false`, stay in the current directory.
+- `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `matdyn.x`.
 """
@@ -94,7 +98,7 @@ Create configurations for `matdyn.x`.
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
-    DynmatxConfig(; exe, chdir, options)
+    DynmatxConfig(; exe, chdir, use_script, options)
 
 Create configurations for `dynmat.x`.
 
@@ -102,6 +106,7 @@ Create configurations for `dynmat.x`.
 - `exe::String="dynmat.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `dynmat.x`. If `false`, stay in the current directory.
+- `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `dynmat.x`.
 """
@@ -122,7 +127,7 @@ end
 end
 
 """
-    pw(input, output, error; use_script, mpi, main, cfgfile)
+    pw(input, output, error; np, exe, chdir, use_script)
 
 Run command `pw.x`.
 
@@ -131,12 +136,12 @@ Run command `pw.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `exe::String="pw.x"`: the path to the executable.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `pw.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name)
   under the directory where the input file is stored, and run it.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main=PwxConfig()`: the configurations of the main executable. In this case,
-  `pw.x`.
-- `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function pw(
     input,
@@ -160,7 +165,7 @@ Run command `pw.x`.
     return run(cmd)
 end
 """
-    ph(input, output, error; use_script, mpi, main, cfgfile)
+    ph(input, output, error; np, exe, chdir, use_script)
 
 Run command `ph.x`.
 
@@ -169,12 +174,12 @@ Run command `ph.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `exe::String="ph.x"`: the path to the executable.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `ph.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name)
   under the directory where the input file is stored, and run it.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main=PhxConfig()`: the configurations of the main executable. In this case,
-  `ph.x`.
-- `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function ph(
     input,
@@ -198,7 +203,7 @@ Run command `ph.x`.
     return run(cmd)
 end
 """
-    q2r(input, output, error; use_script, mpi, main, cfgfile)
+    q2r(input, output, error; np, exe, chdir, use_script)
 
 Run command `q2r.x`.
 
@@ -207,12 +212,12 @@ Run command `q2r.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `exe::String="q2r.x"`: the path to the executable.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `q2r.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name)
   under the directory where the input file is stored, and run it.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main=Q2rxConfig()`: the configurations of the main executable. In this case,
-  `q2r.x`.
-- `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function q2r(
     input,
@@ -236,7 +241,7 @@ Run command `q2r.x`.
     return run(cmd)
 end
 """
-    matdyn(input, output, error; use_script, mpi, main, cfgfile)
+    matdyn(input, output, error; np, exe, chdir, use_script)
 
 Run command `matdyn.x`.
 
@@ -245,12 +250,12 @@ Run command `matdyn.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `exe::String="matdyn.x"`: the path to the executable.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `matdyn.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name)
   under the directory where the input file is stored, and run it.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main=MatdynxConfig()`: the configurations of the main executable. In this
-  case, `matdyn.x`.
-- `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function matdyn(
     input,
@@ -274,7 +279,7 @@ Run command `matdyn.x`.
     return run(cmd)
 end
 """
-    dynmat(input, output, error; use_script, mpi, main, cfgfile)
+    dynmat(input, output, error; np, exe, chdir, use_script)
 
 Run command `dynmat.x`.
 
@@ -283,12 +288,12 @@ Run command `dynmat.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `exe::String="dynmat.x"`: the path to the executable.
+- `chdir::Bool=true`: whether to change directory to where the input file is
+  stored when running `dynmat.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name)
   under the directory where the input file is stored, and run it.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main=DynmatxConfig()`: the configurations of the main executable. In this
-  case, `dynmat.x`.
-- `cfgfile=""`: if not empty, load these configurations from a file.
 """
 @cast function dynmat(
     input,
@@ -313,7 +318,7 @@ Run command `dynmat.x`.
 end
 
 """
-    makecmd(input; output, error, dir, use_script, mpi, main)
+    makecmd(input; output, error, dir, mpi, main)
 
 Make commands for QuantumESPRESSO executables.
 
@@ -324,8 +329,6 @@ Make commands for QuantumESPRESSO executables.
   output file.
 - `dir=parentdir(input)`: change the working directory to `dir`. By default, it
   is the directory where the input file is stored.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under `dir` and run it.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
