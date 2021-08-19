@@ -149,15 +149,6 @@ Run command `pw.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; exe = exe, chdir = chdir, use_script = use_script)
-    return pw(input, output, error, mpi, main)
-end
-function pw(
-    input,
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main = PwxConfig(),
-)
     cmd = makecmd(
         input;
         output = output,
@@ -196,15 +187,6 @@ Run command `ph.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; exe = exe, chdir = chdir, use_script = use_script)
-    return pw(input, output, error, mpi, main)
-end
-function ph(
-    input,
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main = PhxConfig(),
-)
     cmd = makecmd(
         input;
         output = output,
@@ -243,15 +225,6 @@ Run command `q2r.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; exe = exe, chdir = chdir, use_script = use_script)
-    return pw(input, output, error, mpi, main)
-end
-function q2r(
-    input,
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main = Q2rxConfig(),
-)
     cmd = makecmd(
         input;
         output = output,
@@ -290,15 +263,6 @@ Run command `matdyn.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; exe = exe, chdir = chdir, use_script = use_script)
-    return pw(input, output, error, mpi, main)
-end
-function matdyn(
-    input,
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main = MatdynxConfig(),
-)
     cmd = makecmd(
         input;
         output = output,
@@ -337,15 +301,6 @@ Run command `dynmat.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; exe = exe, chdir = chdir, use_script = use_script)
-    return pw(input, output, error, mpi, main)
-end
-function dynmat(
-    input,
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main = DynmatxConfig(),
-)
     cmd = makecmd(
         input;
         output = output,
