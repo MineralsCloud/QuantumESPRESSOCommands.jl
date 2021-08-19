@@ -36,6 +36,7 @@ Create configurations for `pw.x`.
 @option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -53,6 +54,7 @@ Create configurations for `ph.x`.
 @option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -70,6 +72,7 @@ Create configurations for `q2r.x`.
 @option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -87,6 +90,7 @@ Create configurations for `matdyn.x`.
 @option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -104,6 +108,7 @@ Create configurations for `dynmat.x`.
 @option struct DynmatxConfig <: CommandConfig
     exe::String = "dynmat.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
