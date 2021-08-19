@@ -1,6 +1,6 @@
 module QuantumESPRESSOCommands
 
-using AbInitioSoftwareBase: load, parentdir
+using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
@@ -36,6 +36,7 @@ Create configurations for `pw.x`.
 @option struct PwxConfig <: CommandConfig
     exe::String = "pw.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -53,6 +54,7 @@ Create configurations for `ph.x`.
 @option struct PhxConfig <: CommandConfig
     exe::String = "ph.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -70,6 +72,7 @@ Create configurations for `q2r.x`.
 @option struct Q2rxConfig <: CommandConfig
     exe::String = "q2r.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -87,6 +90,7 @@ Create configurations for `matdyn.x`.
 @option struct MatdynxConfig <: CommandConfig
     exe::String = "matdyn.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 """
@@ -104,6 +108,7 @@ Create configurations for `dynmat.x`.
 @option struct DynmatxConfig <: CommandConfig
     exe::String = "dynmat.x"
     chdir::Bool = true
+    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
 end
 
@@ -137,21 +142,27 @@ Run command `pw.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "pw.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), PwxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.pw
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = PwxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function pw(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = PwxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
@@ -178,21 +189,27 @@ Run command `ph.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "ph.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), PhxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.ph
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = PhxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function ph(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = PhxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
@@ -219,21 +236,27 @@ Run command `q2r.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "q2r.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), Q2rxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.q2r
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = Q2rxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function q2r(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = Q2rxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
@@ -260,21 +283,27 @@ Run command `matdyn.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "matdyn.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), MatdynxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.matdyn
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = MatdynxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function matdyn(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = MatdynxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
@@ -301,41 +330,31 @@ Run command `dynmat.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "dynmat.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), DynmatxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.dynmat
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = DynmatxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function dynmat(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = DynmatxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
     return run(cmd)
-end
-
-"""
-    readconfig(cfgfile)
-
-Read the configurations into an object from a file `cfgfile`.
-"""
-function readconfig(cfgfile)
-    cfgfile = expanduser(cfgfile)
-    return if isfile(cfgfile)
-        dict = load(cfgfile)
-        from_dict(QuantumESPRESSOConfig, dict)
-    else
-        @warn "file $cfgfile not found! We will use default options!"
-        QuantumESPRESSOConfig()
-    end
 end
 
 """
@@ -360,7 +379,6 @@ function makecmd(
     output = mktemp(parentdir(input))[1],
     error = output,
     dir = parentdir(input),
-    use_script = false,
     mpi = MpiexecConfig(),
     main,
 )
@@ -379,7 +397,7 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    if use_script
+    if main.use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
