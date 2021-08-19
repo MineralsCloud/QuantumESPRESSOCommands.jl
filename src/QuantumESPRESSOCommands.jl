@@ -1,6 +1,6 @@
 module QuantumESPRESSOCommands
 
-using AbInitioSoftwareBase: load, parentdir
+using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
