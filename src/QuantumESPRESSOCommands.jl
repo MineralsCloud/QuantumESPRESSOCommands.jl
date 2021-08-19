@@ -142,21 +142,27 @@ Run command `pw.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
+    np = 0,
+    exe = "pw.x",
+    chdir = true,
     use_script = false,
-    cfgfile = "",
 )
-    mpi, main = if isempty(cfgfile)
-        MpiexecConfig(), PwxConfig()
-    else
-        config = readconfig(cfgfile)
-        config.mpi, config.pw
-    end
+    mpi = MpiexecConfig(; np = np)
+    main = PwxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    return pw(input, output, error, mpi, main)
+end
+function pw(
+    input,
+    output = mktemp(parentdir(input))[1],
+    error = output,
+    mpi = MpiexecConfig(),
+    main = PwxConfig(),
+)
     cmd = makecmd(
         input;
         output = output,
         error = error,
         dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        use_script = use_script,
         mpi = mpi,
         main = main,
     )
