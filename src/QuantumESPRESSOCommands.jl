@@ -390,7 +390,7 @@ function makecmd(
             push!(args, "-$f", string(v))
         end
     end
-    if use_script
+    if main.use_script
         for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
             if v !== nothing
                 push!(args, k, "'$v'")
