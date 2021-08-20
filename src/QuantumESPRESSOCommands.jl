@@ -136,7 +136,8 @@ Run command `pw.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
+  is performed.
 - `exe::String="pw.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `pw.x`. If `false`, stay in the current directory.
@@ -174,7 +175,8 @@ Run command `ph.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
+  is performed.
 - `exe::String="ph.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `ph.x`. If `false`, stay in the current directory.
@@ -212,7 +214,8 @@ Run command `q2r.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
+  is performed.
 - `exe::String="q2r.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `q2r.x`. If `false`, stay in the current directory.
@@ -250,7 +253,8 @@ Run command `matdyn.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
+  is performed.
 - `exe::String="matdyn.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `matdyn.x`. If `false`, stay in the current directory.
@@ -288,7 +292,8 @@ Run command `dynmat.x`.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
 - `error=output`: the path to the error file. By default, it logs into the
   output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization is performed.
+- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
+  is performed.
 - `exe::String="dynmat.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `dynmat.x`. If `false`, stay in the current directory.
