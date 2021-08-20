@@ -127,22 +127,24 @@ end
 end
 
 """
-    pw(input, output, error; np, exe, chdir, use_script)
-
 Run command `pw.x`.
 
 # Arguments
+
 - `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
-  is performed.
-- `exe::String="pw.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is
-  stored when running `pw.x`. If `false`, stay in the current directory.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under the directory where the input file is stored, and run it.
+- `output`: the path to the output file. If not specified, use a temporary path.
+- `error`: the path to the error file. By default, it is the output file.
+
+# Options
+
+- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--exe <path>`: the path to the executable.
+
+# Flags
+
+- `--chdir`: if true, change directory to where the input file is stored when running.
+- `--use-script`: if true, generate a temporary shell script under the directory where the
+  input file is stored, and run it.
 """
 @cast function pw(
     input,
@@ -150,7 +152,7 @@ Run command `pw.x`.
     error = output;
     np = 0,
     exe = "pw.x",
-    chdir = true,
+    chdir = false,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
@@ -166,22 +168,24 @@ Run command `pw.x`.
     return run(cmd)
 end
 """
-    ph(input, output, error; np, exe, chdir, use_script)
-
 Run command `ph.x`.
 
 # Arguments
+
 - `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
-  is performed.
-- `exe::String="ph.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is
-  stored when running `ph.x`. If `false`, stay in the current directory.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under the directory where the input file is stored, and run it.
+- `output`: the path to the output file. If not specified, use a temporary path.
+- `error`: the path to the error file. By default, it is the output file.
+
+# Options
+
+- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--exe <path>`: the path to the executable.
+
+# Flags
+
+- `--chdir`: if true, change directory to where the input file is stored when running.
+- `--use-script`: if true, generate a temporary shell script under the directory where the
+  input file is stored, and run it.
 """
 @cast function ph(
     input,
@@ -205,22 +209,24 @@ Run command `ph.x`.
     return run(cmd)
 end
 """
-    q2r(input, output, error; np, exe, chdir, use_script)
-
 Run command `q2r.x`.
 
 # Arguments
+
 - `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
-  is performed.
-- `exe::String="q2r.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is
-  stored when running `q2r.x`. If `false`, stay in the current directory.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under the directory where the input file is stored, and run it.
+- `output`: the path to the output file. If not specified, use a temporary path.
+- `error`: the path to the error file. By default, it is the output file.
+
+# Options
+
+- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--exe <path>`: the path to the executable.
+
+# Flags
+
+- `--chdir`: if true, change directory to where the input file is stored when running.
+- `--use-script`: if true, generate a temporary shell script under the directory where the
+  input file is stored, and run it.
 """
 @cast function q2r(
     input,
@@ -244,22 +250,24 @@ Run command `q2r.x`.
     return run(cmd)
 end
 """
-    matdyn(input, output, error; np, exe, chdir, use_script)
-
 Run command `matdyn.x`.
 
 # Arguments
+
 - `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
-  is performed.
-- `exe::String="matdyn.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is
-  stored when running `matdyn.x`. If `false`, stay in the current directory.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under the directory where the input file is stored, and run it.
+- `output`: the path to the output file. If not specified, use a temporary path.
+- `error`: the path to the error file. By default, it is the output file.
+
+# Options
+
+- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--exe <path>`: the path to the executable.
+
+# Flags
+
+- `--chdir`: if true, change directory to where the input file is stored when running.
+- `--use-script`: if true, generate a temporary shell script under the directory where the
+  input file is stored, and run it.
 """
 @cast function matdyn(
     input,
@@ -283,22 +291,24 @@ Run command `matdyn.x`.
     return run(cmd)
 end
 """
-    dynmat(input, output, error; np, exe, chdir, use_script)
-
 Run command `dynmat.x`.
 
 # Arguments
+
 - `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
-- `np::UInt=0`: the number of processes used. If `np` is zero, it means no parallelization
-  is performed.
-- `exe::String="dynmat.x"`: the path to the executable.
-- `chdir::Bool=true`: whether to change directory to where the input file is
-  stored when running `dynmat.x`. If `false`, stay in the current directory.
-- `use_script=false`: if `true`, generate a shell script (with a random name)
-  under the directory where the input file is stored, and run it.
+- `output`: the path to the output file. If not specified, use a temporary path.
+- `error`: the path to the error file. By default, it is the output file.
+
+# Options
+
+- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--exe <path>`: the path to the executable.
+
+# Flags
+
+- `--chdir`: if true, change directory to where the input file is stored when running.
+- `--use-script`: if true, generate a temporary shell script under the directory where the
+  input file is stored, and run it.
 """
 @cast function dynmat(
     input,
