@@ -1,9 +1,10 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
-using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
+using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
+using QuantumEspresso_jll
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -347,15 +348,8 @@ function makecmd(
     mpi = MpiexecConfig(),
     main,
 )
-    if mpi.np == 0
-        args = [main.exe]
-    else
-        args = [mpi.exe, "-n", string(mpi.np)]
-        for (k, v) in mpi.options
-            push!(args, k, string(v))
-        end
-        push!(args, main.exe)
-    end
+    f = mpiexec(mpi)
+    args = [main.exec]
     for f in fieldnames(ParallelizationFlags)
         v = getfield(main.options, f)
         if !iszero(v)
@@ -363,27 +357,23 @@ function makecmd(
         end
     end
     if main.use_script
-        for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
-            if v !== nothing
-                push!(args, k, "'$v'")
-            end
-        end
-        str = join(args, " ")
-        if !isdir(dir)
-            mkpath(dir)
-        end
-        script, io = mktemp(dir)
-        write(io, str)
-        close(io)
-        chmod(script, 0o755)
-        return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
+        # for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
+        #     if v !== nothing
+        #         push!(args, k, "'$v'")
+        #     end
+        # end
+        # str = join(args, " ")
+        # if !isdir(dir)
+        #     mkpath(dir)
+        # end
+        # script, io = mktemp(dir)
+        # write(io, str)
+        # close(io)
+        # chmod(script, 0o755)
+        # return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
         push!(args, "-inp", "$input")
-        return pipeline(
-            setenv(Cmd(args), ENV; dir = abspath(dir)),
-            stdout = output,
-            stderr = error,
-        )
+        return pipeline(f(args; env = main.env); stdout = output, stderr = error)
     end
 end
 
