@@ -35,7 +35,6 @@ Create configurations for `pw.x`.
   flags of `pw.x`.
 """
 @option struct PwxConfig <: CommandConfig
-    exe::String = "pw.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
@@ -54,7 +53,6 @@ Create configurations for `ph.x`.
   flags of `ph.x`.
 """
 @option struct PhxConfig <: CommandConfig
-    exe::String = "ph.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
@@ -73,7 +71,6 @@ Create configurations for `q2r.x`.
   flags of `q2r.x`.
 """
 @option struct Q2rxConfig <: CommandConfig
-    exe::String = "q2r.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
@@ -92,7 +89,6 @@ Create configurations for `matdyn.x`.
   flags of `matdyn.x`.
 """
 @option struct MatdynxConfig <: CommandConfig
-    exe::String = "matdyn.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
@@ -111,7 +107,6 @@ Create configurations for `dynmat.x`.
   flags of `dynmat.x`.
 """
 @option struct DynmatxConfig <: CommandConfig
-    exe::String = "dynmat.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
@@ -151,7 +146,6 @@ Run command `pw.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "pw.x",
     chdir = false,
     use_script = false,
 )
@@ -192,7 +186,6 @@ Run command `ph.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "ph.x",
     chdir = true,
     use_script = false,
 )
@@ -233,7 +226,6 @@ Run command `q2r.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "q2r.x",
     chdir = true,
     use_script = false,
 )
