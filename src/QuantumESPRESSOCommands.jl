@@ -350,10 +350,10 @@ function makecmd(
 )
     f = mpiexec(mpi)
     args = [main.exec]
-    for f in fieldnames(ParallelizationFlags)
-        v = getfield(main.options, f)
-        if !iszero(v)
-            push!(args, "-$f", string(v))
+    for name in fieldnames(ParallelizationFlags)
+        value = getfield(main.options, name)
+        if !iszero(value)
+            push!(args, "-$f", string(value))
         end
     end
     if main.use_script
