@@ -3,6 +3,7 @@ module QuantumESPRESSOCommands
 using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
+using Compat: addenv
 using Configurations: from_dict, @option
 using QuantumEspresso_jll: pwscf, phonon, q2r, matdyn, dynmat
 
@@ -373,7 +374,7 @@ function makecmd(
         # return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
         push!(args, "-inp", "$input")
-        return pipeline(f(args; env = main.env); stdout = output, stderr = error)
+        return pipeline(addenv(f(args), main.env); stdout = output, stderr = error)
     end
 end
 
