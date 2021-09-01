@@ -4,7 +4,7 @@ using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Configurations: from_dict, @option
-using QuantumEspresso_jll
+using QuantumEspresso_jll: pwscf, phonon, q2r, matdyn, dynmat
 
 export pw, ph, q2r, matdyn, dynmat
 
