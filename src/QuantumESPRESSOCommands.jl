@@ -158,7 +158,7 @@ Run command `pw.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PwxConfig(; chdir = chdir, use_script = use_script)
+    main = PwxConfig(; exe = exe, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -199,7 +199,7 @@ Run command `ph.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PhxConfig(; chdir = chdir, use_script = use_script)
+    main = PhxConfig(; exe = exe, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -240,7 +240,7 @@ Run command `q2r.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = Q2rxConfig(; chdir = chdir, use_script = use_script)
+    main = Q2rxConfig(; exe = exe, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -281,7 +281,7 @@ Run command `matdyn.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = MatdynxConfig(; chdir = chdir, use_script = use_script)
+    main = MatdynxConfig(; exe = exe, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -322,7 +322,7 @@ Run command `dynmat.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(; chdir = chdir, use_script = use_script)
+    main = DynmatxConfig(; exe = exe, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
