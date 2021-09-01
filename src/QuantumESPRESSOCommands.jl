@@ -1,9 +1,11 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
-using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig
+using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
+using Compat: addenv
 using Configurations: from_dict, @option
+using QuantumEspresso_jll: pwscf, phonon, q2r, matdyn, dynmat
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -22,12 +24,12 @@ Construct parallelization flags of QuantumESPRESSO commands.
 end
 
 """
-    PwxConfig(; exe, chdir, use_script, options)
+    PwxConfig(; path, chdir, use_script, options)
 
 Create configurations for `pw.x`.
 
 # Arguments
-- `exe::String="pw.x"`: the path to the executable.
+- `path::String="pw.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `pw.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
@@ -35,18 +37,19 @@ Create configurations for `pw.x`.
   flags of `pw.x`.
 """
 @option struct PwxConfig <: CommandConfig
-    exe::String = "pw.x"
+    path::String = "pw.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = pwscf().env
 end
 """
-    PhxConfig(; exe, chdir, use_script, options)
+    PhxConfig(; path, chdir, use_script, options)
 
 Create configurations for `ph.x`.
 
 # Arguments
-- `exe::String="ph.x"`: the path to the executable.
+- `path::String="ph.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `ph.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
@@ -54,18 +57,19 @@ Create configurations for `ph.x`.
   flags of `ph.x`.
 """
 @option struct PhxConfig <: CommandConfig
-    exe::String = "ph.x"
+    path::String = "ph.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = phonon().env
 end
 """
-    Q2rxConfig(; exe, chdir, use_script, options)
+    Q2rxConfig(; path, chdir, use_script, options)
 
 Create configurations for `q2r.x`.
 
 # Arguments
-- `exe::String="q2r.x"`: the path to the executable.
+- `path::String="q2r.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `q2r.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
@@ -73,18 +77,19 @@ Create configurations for `q2r.x`.
   flags of `q2r.x`.
 """
 @option struct Q2rxConfig <: CommandConfig
-    exe::String = "q2r.x"
+    path::String = "q2r.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = q2r().env
 end
 """
-    MatdynxConfig(; exe, chdir, use_script, options)
+    MatdynxConfig(; path, chdir, use_script, options)
 
 Create configurations for `matdyn.x`.
 
 # Arguments
-- `exe::String="matdyn.x"`: the path to the executable.
+- `path::String="matdyn.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `matdyn.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
@@ -92,18 +97,19 @@ Create configurations for `matdyn.x`.
   flags of `matdyn.x`.
 """
 @option struct MatdynxConfig <: CommandConfig
-    exe::String = "matdyn.x"
+    path::String = "matdyn.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = matdyn().env
 end
 """
-    DynmatxConfig(; exe, chdir, use_script, options)
+    DynmatxConfig(; path, chdir, use_script, options)
 
 Create configurations for `dynmat.x`.
 
 # Arguments
-- `exe::String="dynmat.x"`: the path to the executable.
+- `path::String="dynmat.x"`: the path to the executable.
 - `chdir::Bool=true`: whether to change directory to where the input file is
   stored when running `dynmat.x`. If `false`, stay in the current directory.
 - `use_script=false`: if `true`, generate a shell script (with a random name) and run it.
@@ -111,10 +117,11 @@ Create configurations for `dynmat.x`.
   flags of `dynmat.x`.
 """
 @option struct DynmatxConfig <: CommandConfig
-    exe::String = "dynmat.x"
+    path::String = "dynmat.x"
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = dynmat().env
 end
 
 @option struct QuantumESPRESSOConfig <: CommandConfig
@@ -138,7 +145,7 @@ Run command `pw.x`.
 # Options
 
 - `--np <n>`: the number of processes used. If zero, no parallelization is performed.
-- `--exe <path>`: the path to the executable.
+- `--path <path>`: the path to the executable.
 
 # Flags
 
@@ -151,12 +158,12 @@ Run command `pw.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "pw.x",
+    path = "pw.x",
     chdir = false,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PwxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = PwxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -179,7 +186,7 @@ Run command `ph.x`.
 # Options
 
 - `--np <n>`: the number of processes used. If zero, no parallelization is performed.
-- `--exe <path>`: the path to the executable.
+- `--path <path>`: the path to the executable.
 
 # Flags
 
@@ -192,12 +199,12 @@ Run command `ph.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "ph.x",
+    path = "ph.x",
     chdir = true,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PhxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = PhxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -220,7 +227,7 @@ Run command `q2r.x`.
 # Options
 
 - `--np <n>`: the number of processes used. If zero, no parallelization is performed.
-- `--exe <path>`: the path to the executable.
+- `--path <path>`: the path to the executable.
 
 # Flags
 
@@ -233,12 +240,12 @@ Run command `q2r.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "q2r.x",
+    path = "q2r.x",
     chdir = true,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = Q2rxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = Q2rxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -261,7 +268,7 @@ Run command `matdyn.x`.
 # Options
 
 - `--np <n>`: the number of processes used. If zero, no parallelization is performed.
-- `--exe <path>`: the path to the executable.
+- `--path <path>`: the path to the executable.
 
 # Flags
 
@@ -274,12 +281,12 @@ Run command `matdyn.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "matdyn.x",
+    path = "matdyn.x",
     chdir = true,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = MatdynxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = MatdynxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -302,7 +309,7 @@ Run command `dynmat.x`.
 # Options
 
 - `--np <n>`: the number of processes used. If zero, no parallelization is performed.
-- `--exe <path>`: the path to the executable.
+- `--path <path>`: the path to the executable.
 
 # Flags
 
@@ -315,12 +322,12 @@ Run command `dynmat.x`.
     output = mktemp(parentdir(input))[1],
     error = output;
     np = 0,
-    exe = "dynmat.x",
+    path = "dynmat.x",
     chdir = true,
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = DynmatxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
@@ -355,43 +362,32 @@ function makecmd(
     mpi = MpiexecConfig(),
     main,
 )
-    if mpi.np == 0
-        args = [main.exe]
-    else
-        args = [mpi.exe, "-n", string(mpi.np)]
-        for (k, v) in mpi.options
-            push!(args, k, string(v))
-        end
-        push!(args, main.exe)
-    end
-    for f in fieldnames(ParallelizationFlags)
-        v = getfield(main.options, f)
-        if !iszero(v)
-            push!(args, "-$f", string(v))
+    f = mpiexec(mpi)
+    args = [main.exec]
+    for name in fieldnames(ParallelizationFlags)
+        value = getfield(main.options, name)
+        if !iszero(value)
+            push!(args, "-$f", string(value))
         end
     end
     if main.use_script
-        for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
-            if v !== nothing
-                push!(args, k, "'$v'")
-            end
-        end
-        str = join(args, " ")
-        if !isdir(dir)
-            mkpath(dir)
-        end
-        script, io = mktemp(dir)
-        write(io, str)
-        close(io)
-        chmod(script, 0o755)
-        return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
+        # for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
+        #     if v !== nothing
+        #         push!(args, k, "'$v'")
+        #     end
+        # end
+        # str = join(args, " ")
+        # if !isdir(dir)
+        #     mkpath(dir)
+        # end
+        # script, io = mktemp(dir)
+        # write(io, str)
+        # close(io)
+        # chmod(script, 0o755)
+        # return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
         push!(args, "-inp", "$input")
-        return pipeline(
-            setenv(Cmd(args), ENV; dir = abspath(dir)),
-            stdout = output,
-            stderr = error,
-        )
+        return pipeline(addenv(f(args), main.env); stdout = output, stderr = error)
     end
 end
 
