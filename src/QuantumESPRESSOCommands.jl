@@ -327,7 +327,7 @@ Run command `dynmat.x`.
     use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(; exe = exe, chdir = chdir, use_script = use_script)
+    main = DynmatxConfig(; path = path, chdir = chdir, use_script = use_script)
     cmd = makecmd(
         input;
         output = output,
