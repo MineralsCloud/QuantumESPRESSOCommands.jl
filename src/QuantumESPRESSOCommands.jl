@@ -41,6 +41,7 @@ Create configurations for `pw.x`.
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = pwscf().env
 end
 """
     PhxConfig(; path, chdir, use_script, options)
@@ -60,6 +61,7 @@ Create configurations for `ph.x`.
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = phonon().env
 end
 """
     Q2rxConfig(; path, chdir, use_script, options)
@@ -79,6 +81,7 @@ Create configurations for `q2r.x`.
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = q2r().env
 end
 """
     MatdynxConfig(; path, chdir, use_script, options)
@@ -98,6 +101,7 @@ Create configurations for `matdyn.x`.
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = matdyn().env
 end
 """
     DynmatxConfig(; path, chdir, use_script, options)
@@ -117,6 +121,7 @@ Create configurations for `dynmat.x`.
     chdir::Bool = true
     use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
+    env = dynmat().env
 end
 
 @option struct QuantumESPRESSOConfig <: CommandConfig
