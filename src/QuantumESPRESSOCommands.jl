@@ -386,8 +386,12 @@ function makecmd(
         # chmod(script, 0o755)
         # return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
     else
-        push!(args, "-inp", "$input")
-        return pipeline(addenv(f(args), main.env); stdout = output, stderr = error)
+        return pipeline(
+            addenv(f(args), main.env);
+            stdin = input,
+            stdout = output,
+            stderr = error,
+        )
     end
 end
 
