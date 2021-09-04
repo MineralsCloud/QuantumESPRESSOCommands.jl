@@ -155,18 +155,10 @@ Run command `pw.x`.
     np = 0,
     path = "pw.x",
     chdir = false,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -196,18 +188,10 @@ Run command `ph.x`.
     np = 0,
     path = "ph.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -237,18 +221,10 @@ Run command `q2r.x`.
     np = 0,
     path = "q2r.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -278,18 +254,10 @@ Run command `matdyn.x`.
     np = 0,
     path = "matdyn.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -319,18 +287,10 @@ Run command `dynmat.x`.
     np = 0,
     path = "dynmat.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 
