@@ -313,16 +313,15 @@ function makecmd(
     input;
     output = mktemp(parentdir(input))[1],
     error = output,
-    dir = parentdir(input),
     mpi = MpiexecConfig(),
     main,
 )
     f = mpiexec(mpi)
-    args = [main.exec]
+    args = [main.path]
     for name in fieldnames(ParallelizationFlags)
         value = getfield(main.options, name)
         if !iszero(value)
-            push!(args, "-$f", string(value))
+            push!(args, "-$name", string(value))
         end
     end
     return pipeline(
