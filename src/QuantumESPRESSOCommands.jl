@@ -5,7 +5,8 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Compat: addenv
 using Configurations: from_dict, @option
-using QuantumEspresso_jll: pwscf, phonon, q2r, matdyn, dynmat
+using QuantumEspresso_jll:
+    pwscf, phonon, reciprocal_to_real, dynamical_matrix_gamma, dynamical_matrix_generic
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -39,7 +40,6 @@ Create configurations for `pw.x`.
 @option struct PwxConfig <: CommandConfig
     path::String = "pw.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = pwscf().env
 end
@@ -59,7 +59,6 @@ Create configurations for `ph.x`.
 @option struct PhxConfig <: CommandConfig
     path::String = "ph.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = phonon().env
 end
@@ -79,9 +78,8 @@ Create configurations for `q2r.x`.
 @option struct Q2rxConfig <: CommandConfig
     path::String = "q2r.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
-    env = q2r().env
+    env = reciprocal_to_real().env
 end
 """
     MatdynxConfig(; path, chdir, use_script, options)
@@ -99,9 +97,8 @@ Create configurations for `matdyn.x`.
 @option struct MatdynxConfig <: CommandConfig
     path::String = "matdyn.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
-    env = matdyn().env
+    env = dynamical_matrix_generic().env
 end
 """
     DynmatxConfig(; path, chdir, use_script, options)
@@ -119,9 +116,8 @@ Create configurations for `dynmat.x`.
 @option struct DynmatxConfig <: CommandConfig
     path::String = "dynmat.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
-    env = dynmat().env
+    env = dynamical_matrix_gamma().env
 end
 
 @option struct QuantumESPRESSOConfig <: CommandConfig
@@ -160,18 +156,10 @@ Run command `pw.x`.
     np = 0,
     path = "pw.x",
     chdir = false,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -201,18 +189,10 @@ Run command `ph.x`.
     np = 0,
     path = "ph.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -242,18 +222,10 @@ Run command `q2r.x`.
     np = 0,
     path = "q2r.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -283,18 +255,10 @@ Run command `matdyn.x`.
     np = 0,
     path = "matdyn.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -324,18 +288,10 @@ Run command `dynmat.x`.
     np = 0,
     path = "dynmat.x",
     chdir = true,
-    use_script = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; path = path, chdir = chdir, use_script = use_script)
-    cmd = makecmd(
-        input;
-        output = output,
-        error = error,
-        dir = main.chdir ? parentdir(input) : pwd(),  # See https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/pull/10
-        mpi = mpi,
-        main = main,
-    )
+    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
 
@@ -358,37 +314,23 @@ function makecmd(
     input;
     output = mktemp(parentdir(input))[1],
     error = output,
-    dir = parentdir(input),
     mpi = MpiexecConfig(),
     main,
 )
     f = mpiexec(mpi)
-    args = [main.exec]
+    args = [main.path]
     for name in fieldnames(ParallelizationFlags)
         value = getfield(main.options, name)
         if !iszero(value)
-            push!(args, "-$f", string(value))
+            push!(args, "-$name", string(value))
         end
     end
-    if main.use_script
-        # for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
-        #     if v !== nothing
-        #         push!(args, k, "'$v'")
-        #     end
-        # end
-        # str = join(args, " ")
-        # if !isdir(dir)
-        #     mkpath(dir)
-        # end
-        # script, io = mktemp(dir)
-        # write(io, str)
-        # close(io)
-        # chmod(script, 0o755)
-        # return setenv(Cmd([abspath(script)]), ENV; dir = abspath(dir))
-    else
-        push!(args, "-inp", "$input")
-        return pipeline(addenv(f(args), main.env); stdout = output, stderr = error)
-    end
+    return pipeline(
+        addenv(f(args), main.env);
+        stdin = input,
+        stdout = output,
+        stderr = error,
+    )
 end
 
 """
