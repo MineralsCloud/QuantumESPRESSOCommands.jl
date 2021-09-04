@@ -5,7 +5,8 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Compat: addenv
 using Configurations: from_dict, @option
-using QuantumEspresso_jll: pwscf, phonon, q2r, matdyn, dynmat
+using QuantumEspresso_jll:
+    pwscf, phonon, reciprocal_to_real, dynamical_matrix_gamma, dynamical_matrix_generic
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -78,7 +79,7 @@ Create configurations for `q2r.x`.
     path::String = "q2r.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = q2r().env
+    env = reciprocal_to_real().env
 end
 """
     MatdynxConfig(; path, chdir, use_script, options)
@@ -97,7 +98,7 @@ Create configurations for `matdyn.x`.
     path::String = "matdyn.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = matdyn().env
+    env = dynamical_matrix_generic().env
 end
 """
     DynmatxConfig(; path, chdir, use_script, options)
@@ -116,7 +117,7 @@ Create configurations for `dynmat.x`.
     path::String = "dynmat.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = dynmat().env
+    env = dynamical_matrix_gamma().env
 end
 
 @option struct QuantumESPRESSOConfig <: CommandConfig
