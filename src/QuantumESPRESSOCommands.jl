@@ -146,7 +146,7 @@ Run command `pw.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
-    np = 0,
+    np = 1,
     path = "pw.x",
     chdir = false,
 )
@@ -177,7 +177,7 @@ Run command `ph.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
-    np = 0,
+    np = 1,
     path = "ph.x",
     chdir = true,
 )
@@ -208,7 +208,7 @@ Run command `q2r.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
-    np = 0,
+    np = 1,
     path = "q2r.x",
     chdir = true,
 )
@@ -239,7 +239,7 @@ Run command `matdyn.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
-    np = 0,
+    np = 1,
     path = "matdyn.x",
     chdir = true,
 )
@@ -270,7 +270,7 @@ Run command `dynmat.x`.
     input,
     output = mktemp(parentdir(input))[1],
     error = output;
-    np = 0,
+    np = 1,
     path = "dynmat.x",
     chdir = true,
 )
