@@ -39,7 +39,6 @@ Create configurations for `pw.x`.
 @option struct PwxConfig <: CommandConfig
     path::String = "pw.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = pwscf().env
 end
@@ -59,7 +58,6 @@ Create configurations for `ph.x`.
 @option struct PhxConfig <: CommandConfig
     path::String = "ph.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = phonon().env
 end
@@ -79,7 +77,6 @@ Create configurations for `q2r.x`.
 @option struct Q2rxConfig <: CommandConfig
     path::String = "q2r.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = q2r().env
 end
@@ -99,7 +96,6 @@ Create configurations for `matdyn.x`.
 @option struct MatdynxConfig <: CommandConfig
     path::String = "matdyn.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = matdyn().env
 end
@@ -119,7 +115,6 @@ Create configurations for `dynmat.x`.
 @option struct DynmatxConfig <: CommandConfig
     path::String = "dynmat.x"
     chdir::Bool = true
-    use_script::Bool = false
     options::ParallelizationFlags = ParallelizationFlags()
     env = dynmat().env
 end
