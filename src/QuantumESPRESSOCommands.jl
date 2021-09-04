@@ -135,7 +135,7 @@ Run command `pw.x`.
 
 # Options
 
-- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--np <n>`: the number of processes used.
 - `--path <path>`: the path to the executable.
 
 # Flags
@@ -166,7 +166,7 @@ Run command `ph.x`.
 
 # Options
 
-- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--np <n>`: the number of processes used.
 - `--path <path>`: the path to the executable.
 
 # Flags
@@ -197,7 +197,7 @@ Run command `q2r.x`.
 
 # Options
 
-- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--np <n>`: the number of processes used.
 - `--path <path>`: the path to the executable.
 
 # Flags
@@ -228,7 +228,7 @@ Run command `matdyn.x`.
 
 # Options
 
-- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--np <n>`: the number of processes used.
 - `--path <path>`: the path to the executable.
 
 # Flags
@@ -259,7 +259,7 @@ Run command `dynmat.x`.
 
 # Options
 
-- `--np <n>`: the number of processes used. If zero, no parallelization is performed.
+- `--np <n>`: the number of processes used.
 - `--path <path>`: the path to the executable.
 
 # Flags
