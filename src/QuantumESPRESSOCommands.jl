@@ -325,29 +325,12 @@ function makecmd(
             push!(args, "-$f", string(value))
         end
     end
-    if main.use_script
-        for (k, v) in zip(("-inp", "1>", "2>"), (input, output, error))
-            if v !== nothing
-                push!(args, k, "'$v'")
-            end
-        end
-        str = join(args, " ")
-        if !isdir(dir)
-            mkpath(dir)
-        end
-        script, io = mktemp(dir)
-        write(io, str)
-        close(io)
-        chmod(script, 0o755)
-        return addenv(Cmd([abspath(script)]; dir = abspath(dir)), main.env)
-    else
-        return pipeline(
-            addenv(f(args), main.env);
-            stdin = input,
-            stdout = output,
-            stderr = error,
-        )
-    end
+    return pipeline(
+        addenv(f(args), main.env);
+        stdin = input,
+        stdout = output,
+        stderr = error,
+    )
 end
 
 """
