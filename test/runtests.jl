@@ -1,5 +1,5 @@
 using AbInitioSoftwareBase.Commands: MpiexecConfig
-using QuantumESPRESSOCommands: ParallelizationFlags, PwxConfig, makecmd
+using QuantumESPRESSOCommands: ParallelizationFlags, PwxConfig, PhxConfig, makecmd
 using Test
 
 @testset "QuantumESPRESSOCommands.jl" begin
@@ -15,4 +15,9 @@ using Test
         mpi = MpiexecConfig(; np = 8),
         main = PwxConfig(; options = ParallelizationFlags(; nimage = 4)),
     ).cmd.cmd.exec[2:end] == ["-np", "8", "pw.x", "-nimage", "4"]
+    @test makecmd(
+        "/home/test/ph.in",
+        output = "/home/test/ph.out",
+        main = PhxConfig(),
+    ).cmd.cmd.dir == "/home/test"
 end
