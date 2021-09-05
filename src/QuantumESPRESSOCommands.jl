@@ -25,7 +25,7 @@ Construct parallelization flags of QuantumESPRESSO commands.
 end
 
 """
-    PwxConfig(; path, chdir, use_script, options)
+    PwxConfig(; path, chdir, options)
 
 Create configurations for `pw.x`.
 
@@ -43,7 +43,7 @@ Create configurations for `pw.x`.
     env = pwscf().env
 end
 """
-    PhxConfig(; path, chdir, use_script, options)
+    PhxConfig(; path, chdir, options)
 
 Create configurations for `ph.x`.
 
@@ -61,7 +61,7 @@ Create configurations for `ph.x`.
     env = phonon().env
 end
 """
-    Q2rxConfig(; path, chdir, use_script, options)
+    Q2rxConfig(; path, chdir, options)
 
 Create configurations for `q2r.x`.
 
@@ -79,7 +79,7 @@ Create configurations for `q2r.x`.
     env = reciprocal_to_real().env
 end
 """
-    MatdynxConfig(; path, chdir, use_script, options)
+    MatdynxConfig(; path, chdir, options)
 
 Create configurations for `matdyn.x`.
 
@@ -97,7 +97,7 @@ Create configurations for `matdyn.x`.
     env = dynamical_matrix_generic().env
 end
 """
-    DynmatxConfig(; path, chdir, use_script, options)
+    DynmatxConfig(; path, chdir, options)
 
 Create configurations for `dynmat.x`.
 
@@ -151,7 +151,7 @@ Run command `pw.x`.
     chdir = false,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PwxConfig(; path = path, chdir = chdir, use_script = use_script)
+    main = PwxConfig(; path = path, chdir = chdir)
     cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
@@ -182,7 +182,7 @@ Run command `ph.x`.
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PhxConfig(; path = path, chdir = chdir, use_script = use_script)
+    main = PhxConfig(; path = path, chdir = chdir)
     cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
@@ -213,7 +213,7 @@ Run command `q2r.x`.
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
-    main = Q2rxConfig(; path = path, chdir = chdir, use_script = use_script)
+    main = Q2rxConfig(; path = path, chdir = chdir)
     cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
@@ -244,7 +244,7 @@ Run command `matdyn.x`.
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
-    main = MatdynxConfig(; path = path, chdir = chdir, use_script = use_script)
+    main = MatdynxConfig(; path = path, chdir = chdir)
     cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
@@ -275,7 +275,7 @@ Run command `dynmat.x`.
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(; path = path, chdir = chdir, use_script = use_script)
+    main = DynmatxConfig(; path = path, chdir = chdir)
     cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
     return run(cmd)
 end
