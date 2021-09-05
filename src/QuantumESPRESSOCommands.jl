@@ -25,7 +25,7 @@ Construct parallelization flags of QuantumESPRESSO commands.
 end
 
 """
-    PwxConfig(; path, chdir, use_script, options)
+    PwxConfig(; path, chdir, options)
 
 Create configurations for `pw.x`.
 
@@ -43,7 +43,7 @@ Create configurations for `pw.x`.
     env = pwscf().env
 end
 """
-    PhxConfig(; path, chdir, use_script, options)
+    PhxConfig(; path, chdir, options)
 
 Create configurations for `ph.x`.
 
@@ -61,7 +61,7 @@ Create configurations for `ph.x`.
     env = phonon().env
 end
 """
-    Q2rxConfig(; path, chdir, use_script, options)
+    Q2rxConfig(; path, chdir, options)
 
 Create configurations for `q2r.x`.
 
@@ -79,7 +79,7 @@ Create configurations for `q2r.x`.
     env = reciprocal_to_real().env
 end
 """
-    MatdynxConfig(; path, chdir, use_script, options)
+    MatdynxConfig(; path, chdir, options)
 
 Create configurations for `matdyn.x`.
 
@@ -97,7 +97,7 @@ Create configurations for `matdyn.x`.
     env = dynamical_matrix_generic().env
 end
 """
-    DynmatxConfig(; path, chdir, use_script, options)
+    DynmatxConfig(; path, chdir, options)
 
 Create configurations for `dynmat.x`.
 
