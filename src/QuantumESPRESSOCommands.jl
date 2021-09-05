@@ -271,7 +271,7 @@ Run command `dynmat.x`.
 end
 
 """
-    makecmd(input; output, error, dir, mpi, main)
+    makecmd(input, output; dir, mpi, main)
 
 Make commands for QuantumESPRESSO executables.
 
