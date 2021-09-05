@@ -290,7 +290,8 @@ function makecmd(input; output = mktemp(parentdir(input))[1], mpi = MpiexecConfi
             push!(args, "-$name", string(value))
         end
     end
-    return pipeline(addenv(f(args), main.env); stdin = input, stdout = output)
+    dir = main.chdir ? parentdir(input) : pwd()
+    return pipeline(addenv(f(args; dir = dir), main.env); stdin = input, stdout = output)
 end
 
 """
