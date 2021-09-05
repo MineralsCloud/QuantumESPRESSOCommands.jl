@@ -293,13 +293,7 @@ Make commands for QuantumESPRESSO executables.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
-function makecmd(
-    input;
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main,
-)
+function makecmd(input; output = mktemp(parentdir(input))[1], mpi = MpiexecConfig(), main)
     f = mpiexec(mpi)
     args = [main.path]
     for name in fieldnames(ParallelizationFlags)
@@ -308,12 +302,7 @@ function makecmd(
             push!(args, "-$name", string(value))
         end
     end
-    return pipeline(
-        addenv(f(args), main.env);
-        stdin = input,
-        stdout = output,
-        stderr = error,
-    )
+    return pipeline(addenv(f(args), main.env); stdin = input, stdout = output)
 end
 
 """
