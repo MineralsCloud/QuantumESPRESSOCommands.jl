@@ -131,7 +131,6 @@ Run command `pw.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -161,7 +160,6 @@ Run command `ph.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -191,7 +189,6 @@ Run command `q2r.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -221,7 +218,6 @@ Run command `matdyn.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -251,7 +247,6 @@ Run command `dynmat.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
