@@ -144,15 +144,14 @@ Run command `pw.x`.
 """
 @cast function pw(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "pw.x",
     chdir = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -175,15 +174,14 @@ Run command `ph.x`.
 """
 @cast function ph(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "ph.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -206,15 +204,14 @@ Run command `q2r.x`.
 """
 @cast function q2r(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "q2r.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -237,15 +234,14 @@ Run command `matdyn.x`.
 """
 @cast function matdyn(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "matdyn.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -268,15 +264,14 @@ Run command `dynmat.x`.
 """
 @cast function dynmat(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "dynmat.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 
