@@ -131,7 +131,6 @@ Run command `pw.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -144,15 +143,14 @@ Run command `pw.x`.
 """
 @cast function pw(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "pw.x",
     chdir = false,
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -162,7 +160,6 @@ Run command `ph.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -175,15 +172,14 @@ Run command `ph.x`.
 """
 @cast function ph(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "ph.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -193,7 +189,6 @@ Run command `q2r.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -206,15 +201,14 @@ Run command `q2r.x`.
 """
 @cast function q2r(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "q2r.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -224,7 +218,6 @@ Run command `matdyn.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -237,15 +230,14 @@ Run command `matdyn.x`.
 """
 @cast function matdyn(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "matdyn.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -255,7 +247,6 @@ Run command `dynmat.x`.
 
 - `input`: the path to the input file.
 - `output`: the path to the output file. If not specified, use a temporary path.
-- `error`: the path to the error file. By default, it is the output file.
 
 # Options
 
@@ -268,15 +259,14 @@ Run command `dynmat.x`.
 """
 @cast function dynmat(
     input,
-    output = mktemp(parentdir(input))[1],
-    error = output;
+    output = mktemp(parentdir(input))[1];
     np = 1,
     path = "dynmat.x",
     chdir = true,
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, error = error, mpi = mpi, main = main)
+    cmd = makecmd(input; output = output, mpi = mpi, main = main)
     return run(cmd)
 end
 
@@ -288,18 +278,10 @@ Make commands for QuantumESPRESSO executables.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
-function makecmd(
-    input;
-    output = mktemp(parentdir(input))[1],
-    error = output,
-    mpi = MpiexecConfig(),
-    main,
-)
+function makecmd(input; output = mktemp(parentdir(input))[1], mpi = MpiexecConfig(), main)
     f = mpiexec(mpi)
     args = [main.path]
     for name in fieldnames(ParallelizationFlags)
@@ -308,12 +290,8 @@ function makecmd(
             push!(args, "-$name", string(value))
         end
     end
-    return pipeline(
-        addenv(f(args), main.env);
-        stdin = input,
-        stdout = output,
-        stderr = error,
-    )
+    dir = main.chdir ? parentdir(input) : pwd()
+    return pipeline(addenv(f(args; dir = dir), main.env); stdin = input, stdout = output)
 end
 
 """
