@@ -8,11 +8,11 @@ using Test
         output = "scf.out",
         mpi = MpiexecConfig(; np = 8),
         main = PwxConfig(),
-    ).cmd.cmd.cmd.exec[2:end] == ["-np", "8", "pw.x"]
+    ).cmd.cmd.exec[2:end] == ["-np", "8", "pw.x"]
     @test makecmd(
         "scf.in";
         output = "scf.out",
         mpi = MpiexecConfig(; np = 8),
         main = PwxConfig(; options = ParallelizationFlags(; nimage = 4)),
-    ).cmd.cmd.cmd.exec[2:end] == ["-np", "8", "pw.x", "-nimage", "4"]
+    ).cmd.cmd.exec[2:end] == ["-np", "8", "pw.x", "-nimage", "4"]
 end
