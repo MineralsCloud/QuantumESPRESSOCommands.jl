@@ -150,7 +150,7 @@ Run command `pw.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = PwxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, mpi = mpi, main = main)
+    cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -179,7 +179,7 @@ Run command `ph.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = PhxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, mpi = mpi, main = main)
+    cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -208,7 +208,7 @@ Run command `q2r.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = Q2rxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, mpi = mpi, main = main)
+    cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -237,7 +237,7 @@ Run command `matdyn.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = MatdynxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, mpi = mpi, main = main)
+    cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
 """
@@ -266,12 +266,12 @@ Run command `dynmat.x`.
 )
     mpi = MpiexecConfig(; np = np)
     main = DynmatxConfig(; path = path, chdir = chdir)
-    cmd = makecmd(input; output = output, mpi = mpi, main = main)
+    cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
 
 """
-    makecmd(input; output, error, dir, mpi, main)
+    makecmd(input, output; dir, mpi, main)
 
 Make commands for QuantumESPRESSO executables.
 
@@ -281,7 +281,7 @@ Make commands for QuantumESPRESSO executables.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
-function makecmd(input; output = mktemp(parentdir(input))[1], mpi = MpiexecConfig(), main)
+function makecmd(input, output = mktemp(parentdir(input))[1]; mpi = MpiexecConfig(), main)
     f = mpiexec(mpi)
     args = [main.path]
     for name in fieldnames(ParallelizationFlags)
