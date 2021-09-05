@@ -292,7 +292,7 @@ function makecmd(input; output = mktemp(parentdir(input))[1], mpi = MpiexecConfi
     end
     dir = abspath(main.chdir ? parentdir(input) : pwd())
     return cd(dir) do
-        pipeline(addenv(f(args; dir = dir), main.env); stdin = input, stdout = output)
+        pipeline(Cmd(addenv(f(args), main.env); dir = dir); stdin = input, stdout = output)
     end
 end
 
