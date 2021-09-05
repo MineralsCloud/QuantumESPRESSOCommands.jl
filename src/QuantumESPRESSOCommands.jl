@@ -278,8 +278,6 @@ Make commands for QuantumESPRESSO executables.
 # Arguments
 - `input`: the path to the input file.
 - `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `error=output`: the path to the error file. By default, it logs into the
-  output file.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
