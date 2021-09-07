@@ -15,7 +15,7 @@ export pw, ph, q2r, matdyn, dynmat
 
 Construct parallelization flags of QuantumESPRESSO commands.
 """
-@option struct ParallelizationFlags
+@option mutable struct ParallelizationFlags
     nimage::UInt = 0
     npool::UInt = 0
     ntg::UInt = 0
@@ -36,7 +36,7 @@ Create configurations for `pw.x`.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `pw.x`.
 """
-@option struct PwxConfig <: CommandConfig
+@option mutable struct PwxConfig <: CommandConfig
     path::String = "pw.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
@@ -54,7 +54,7 @@ Create configurations for `ph.x`.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `ph.x`.
 """
-@option struct PhxConfig <: CommandConfig
+@option mutable struct PhxConfig <: CommandConfig
     path::String = "ph.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
@@ -72,7 +72,7 @@ Create configurations for `q2r.x`.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `q2r.x`.
 """
-@option struct Q2rxConfig <: CommandConfig
+@option mutable struct Q2rxConfig <: CommandConfig
     path::String = "q2r.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
@@ -90,7 +90,7 @@ Create configurations for `matdyn.x`.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `matdyn.x`.
 """
-@option struct MatdynxConfig <: CommandConfig
+@option mutable struct MatdynxConfig <: CommandConfig
     path::String = "matdyn.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
@@ -108,14 +108,14 @@ Create configurations for `dynmat.x`.
 - `options::ParallelizationFlags=ParallelizationFlags()`: the parallelization
   flags of `dynmat.x`.
 """
-@option struct DynmatxConfig <: CommandConfig
+@option mutable struct DynmatxConfig <: CommandConfig
     path::String = "dynmat.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env = dynamical_matrix_gamma().env
 end
 
-@option struct QuantumESPRESSOConfig <: CommandConfig
+@option mutable struct QuantumESPRESSOConfig <: CommandConfig
     mpi::MpiexecConfig = MpiexecConfig()
     pw::PwxConfig = PwxConfig()
     ph::PhxConfig = PhxConfig()
