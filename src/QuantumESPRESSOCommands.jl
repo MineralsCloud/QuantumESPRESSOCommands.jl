@@ -5,8 +5,6 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Compat: addenv
 using Configurations: from_dict, @option
-using QuantumEspresso_jll:
-    pwscf, phonon, reciprocal_to_real, dynamical_matrix_gamma, dynamical_matrix_generic
 
 export pw, ph, q2r, matdyn, dynmat
 
