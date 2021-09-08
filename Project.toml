@@ -1,7 +1,7 @@
 name = "QuantumESPRESSOCommands"
 uuid = "f713baf6-9299-4878-8719-8ad597e49a7b"
 authors = ["Qi Zhang <singularitti@outlook.com>"]
-version = "0.4.1-DEV"
+version = "0.5.1-DEV"
 
 [deps]
 Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
