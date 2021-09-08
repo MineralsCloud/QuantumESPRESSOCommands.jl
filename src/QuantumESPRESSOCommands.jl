@@ -5,8 +5,6 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Compat: addenv
 using Configurations: from_dict, @option
-using QuantumEspresso_jll:
-    pwscf, phonon, reciprocal_to_real, dynamical_matrix_gamma, dynamical_matrix_generic
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -40,7 +38,7 @@ Create configurations for `pw.x`.
     path::String = "pw.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = pwscf().env
+    env::Union{Dict,Vector} = Dict(ENV)
 end
 """
     PhxConfig(; path, chdir, options)
@@ -58,7 +56,7 @@ Create configurations for `ph.x`.
     path::String = "ph.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = phonon().env
+    env::Union{Dict,Vector} = Dict(ENV)
 end
 """
     Q2rxConfig(; path, chdir, options)
@@ -76,7 +74,7 @@ Create configurations for `q2r.x`.
     path::String = "q2r.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = reciprocal_to_real().env
+    env::Union{Dict,Vector} = Dict(ENV)
 end
 """
     MatdynxConfig(; path, chdir, options)
@@ -94,7 +92,7 @@ Create configurations for `matdyn.x`.
     path::String = "matdyn.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = dynamical_matrix_generic().env
+    env::Union{Dict,Vector} = Dict(ENV)
 end
 """
     DynmatxConfig(; path, chdir, options)
@@ -112,7 +110,7 @@ Create configurations for `dynmat.x`.
     path::String = "dynmat.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
-    env = dynamical_matrix_gamma().env
+    env::Union{Dict,Vector} = Dict(ENV)
 end
 
 @option mutable struct QuantumESPRESSOConfig <: CommandConfig
