@@ -145,9 +145,24 @@ Run command `pw.x`.
     np = 1,
     path = "pw.x",
     chdir = false,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PwxConfig(; path = path, chdir = chdir)
+    main = PwxConfig(;
+        path = path,
+        chdir = chdir,
+        nimage = nimage,
+        npool = npool,
+        ntg = ntg,
+        nyfft = nyfft,
+        nband = nband,
+        ndiag = ndiag,
+    )
     cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
@@ -174,9 +189,24 @@ Run command `ph.x`.
     np = 1,
     path = "ph.x",
     chdir = true,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
 )
     mpi = MpiexecConfig(; np = np)
-    main = PhxConfig(; path = path, chdir = chdir)
+    main = PhxConfig(;
+        path = path,
+        chdir = chdir,
+        nimage = nimage,
+        npool = npool,
+        ntg = ntg,
+        nyfft = nyfft,
+        nband = nband,
+        ndiag = ndiag,
+    )
     cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
@@ -203,9 +233,24 @@ Run command `q2r.x`.
     np = 1,
     path = "q2r.x",
     chdir = true,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
 )
     mpi = MpiexecConfig(; np = np)
-    main = Q2rxConfig(; path = path, chdir = chdir)
+    main = Q2rxConfig(;
+        path = path,
+        chdir = chdir,
+        nimage = nimage,
+        npool = npool,
+        ntg = ntg,
+        nyfft = nyfft,
+        nband = nband,
+        ndiag = ndiag,
+    )
     cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
@@ -232,9 +277,24 @@ Run command `matdyn.x`.
     np = 1,
     path = "matdyn.x",
     chdir = true,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
 )
     mpi = MpiexecConfig(; np = np)
-    main = MatdynxConfig(; path = path, chdir = chdir)
+    main = MatdynxConfig(;
+        path = path,
+        chdir = chdir,
+        nimage = nimage,
+        npool = npool,
+        ntg = ntg,
+        nyfft = nyfft,
+        nband = nband,
+        ndiag = ndiag,
+    )
     cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
@@ -261,9 +321,24 @@ Run command `dynmat.x`.
     np = 1,
     path = "dynmat.x",
     chdir = true,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
 )
     mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(; path = path, chdir = chdir)
+    main = DynmatxConfig(;
+        path = path,
+        chdir = chdir,
+        nimage = nimage,
+        npool = npool,
+        ntg = ntg,
+        nyfft = nyfft,
+        nband = nband,
+        ndiag = ndiag,
+    )
     cmd = makecmd(input, output; mpi = mpi, main = main)
     return run(cmd)
 end
