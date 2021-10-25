@@ -38,16 +38,6 @@ Construct parallelization flags of QuantumESPRESSO commands.
     ndiag::UInt = 0
 end
 
-
-@option mutable struct QuantumESPRESSOConfig <: CommandConfig
-    mpi::MpiexecConfig = MpiexecConfig()
-    pw::PwxConfig = PwxConfig()
-    ph::PhxConfig = PhxConfig()
-    q2r::Q2rxConfig = Q2rxConfig()
-    matdyn::MatdynxConfig = MatdynxConfig()
-    dynmat::DynmatxConfig = DynmatxConfig()
-end
-
 """
 Run command `pw.x`.
 
