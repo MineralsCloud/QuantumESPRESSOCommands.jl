@@ -23,6 +23,6 @@ PhxConfig
 Q2rxConfig
 MatdynxConfig
 DynmatxConfig
-makecmd
+cmdtemplate
 ```
 

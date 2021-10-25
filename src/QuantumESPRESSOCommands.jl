@@ -155,15 +155,9 @@ dynmat(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("dynmat"), input, output; kwargs...)
 
 """
-    makecmd(input, output; dir, mpi, main)
+    cmdtemplate(path, input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
 Make commands for QuantumESPRESSO executables.
-
-# Arguments
-- `input`: the path to the input file.
-- `output=mktemp(parentdir(input))[1]`: the path to the output file.
-- `mpi=MpiexecConfig()`: MPI configurations.
-- `main`: the configurations of the main executable.
 """
 function cmdtemplate(
     path,
