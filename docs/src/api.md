@@ -17,12 +17,6 @@ dynmat
 ## Private interfaces
 
 ```@docs
-ParallelizationFlags
-PwxConfig
-PhxConfig
-Q2rxConfig
-MatdynxConfig
-DynmatxConfig
 cmdtemplate
 ```
 
