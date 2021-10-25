@@ -141,18 +141,17 @@ function cmdtemplate(
     nband = 0,
     ndiag = 0,
     np = 1,
+    env = [],
     kwargs...,
 )
     if ndiag^2 > np
         @error "`ndiag` square should be less than `np`!"
     end
-    f = mpiexec(; kwargs...)
+    f = mpiexec(env; np = np, kwargs...)
     args = [path]
-    for (key, value) in (;
-        zip(
-            (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
-            (nimage, npool, ntg, nyfft, nband, ndiag),
-        )...,
+    for (key, value) in zip(
+        (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
+        (nimage, npool, ntg, nyfft, nband, ndiag),
     )
         if !iszero(value)
             push!(args, "-$key", string(value))
