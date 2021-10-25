@@ -25,20 +25,6 @@ end
 export pw, ph, q2r, matdyn, dynmat
 
 """
-    ParallelizationFlags(; nimage=0, npool=0, ntg=0, nyfft=0, nband=0, ndiag=0)
-
-Construct parallelization flags of QuantumESPRESSO commands.
-"""
-@option mutable struct ParallelizationFlags
-    nimage::UInt = 0
-    npool::UInt = 0
-    ntg::UInt = 0
-    nyfft::UInt = 0
-    nband::UInt = 0
-    ndiag::UInt = 0
-end
-
-"""
 Run command `pw.x`.
 
 # Arguments
