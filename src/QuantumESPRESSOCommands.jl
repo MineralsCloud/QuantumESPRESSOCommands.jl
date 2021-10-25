@@ -366,21 +366,37 @@ Make commands for QuantumESPRESSO executables.
 - `mpi=MpiexecConfig()`: MPI configurations.
 - `main`: the configurations of the main executable.
 """
-function makecmd(input, output = mktemp(parentdir(input))[1]; mpi = MpiexecConfig(), main)
-    f = mpiexec(mpi)
-    args = [main.path]
-    for name in fieldnames(ParallelizationFlags)
-        value = getfield(main.options, name)
+function cmdtemplate(
+    path,
+    input,
+    output = mktemp(parentdir(input))[1];
+    chdir = true,
+    nimage = 0,
+    npool = 0,
+    ntg = 0,
+    nyfft = 0,
+    nband = 0,
+    ndiag = 0,
+    np = 1,
+    kwargs...,
+)
+    if ndiag^2 > np
+        @error "`ndiag` square should be less than `np`!"
+    end
+    f = mpiexec(; kwargs...)
+    args = [path]
+    for (key, value) in (;
+        zip(
+            (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
+            (nimage, npool, ntg, nyfft, nband, ndiag),
+        )...,
+    )
         if !iszero(value)
-            push!(args, "-$name", string(value))
+            push!(args, "-$key", string(value))
         end
     end
-    dir = abspath(main.chdir ? parentdir(input) : pwd())
-    return pipeline(
-        Cmd(addenv(f(args), main.env); dir = dir);
-        stdin = input,
-        stdout = output,
-    )
+    dir = abspath(chdir ? parentdir(input) : pwd())
+    return pipeline(Cmd(f(args); dir = dir); stdin = input, stdout = output)
 end
 
 """
