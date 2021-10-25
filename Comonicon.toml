@@ -1,6 +1,0 @@
-name = "qe"
-
-[install]
-completion = false
-quiet = false
-optimize = 2
