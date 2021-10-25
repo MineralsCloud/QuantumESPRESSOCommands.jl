@@ -59,97 +59,37 @@ end
 export pw, ph, q2r, matdyn, dynmat
 
 """
-Run command `pw.x`.
+    pw(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
-# Arguments
-
-- `input`: the path to the input file.
-- `output`: the path to the output file. If not specified, use a temporary path.
-
-# Options
-
-- `--np <n>`: the number of processes used.
-- `--path <path>`: the path to the executable.
-
-# Flags
-
-- `--chdir`: if true, change directory to where the input file is stored when running.
+Make commands for `pw.x`.
 """
 pw(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("pw"), input, output; kwargs...)
 """
-Run command `ph.x`.
+    ph(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
-# Arguments
-
-- `input`: the path to the input file.
-- `output`: the path to the output file. If not specified, use a temporary path.
-
-# Options
-
-- `--np <n>`: the number of processes used.
-- `--path <path>`: the path to the executable.
-
-# Flags
-
-- `--chdir`: if true, change directory to where the input file is stored when running.
+Make commands for `ph.x`.
 """
 ph(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("ph"), input, output; kwargs...)
 """
-Run command `q2r.x`.
+    q2r(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
-# Arguments
-
-- `input`: the path to the input file.
-- `output`: the path to the output file. If not specified, use a temporary path.
-
-# Options
-
-- `--np <n>`: the number of processes used.
-- `--path <path>`: the path to the executable.
-
-# Flags
-
-- `--chdir`: if true, change directory to where the input file is stored when running.
+Make commands for `q2r.x`.
 """
 q2r(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("q2r"), input, output; kwargs...)
 """
-Run command `matdyn.x`.
+    matdyn(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
-# Arguments
-
-- `input`: the path to the input file.
-- `output`: the path to the output file. If not specified, use a temporary path.
-
-# Options
-
-- `--np <n>`: the number of processes used.
-- `--path <path>`: the path to the executable.
-
-# Flags
-
-- `--chdir`: if true, change directory to where the input file is stored when running.
+Make commands for `matdyn.x`.
 """
 matdyn(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("matdyn"), input, output; kwargs...)
 """
-Run command `dynmat.x`.
+    dynmat(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
-# Arguments
-
-- `input`: the path to the input file.
-- `output`: the path to the output file. If not specified, use a temporary path.
-
-# Options
-
-- `--np <n>`: the number of processes used.
-- `--path <path>`: the path to the executable.
-
-# Flags
-
-- `--chdir`: if true, change directory to where the input file is stored when running.
+Make commands for `dynmat.x`.
 """
 dynmat(input, output = mktemp(parentdir(input))[1]; kwargs...) =
     cmdtemplate(get_path("dynmat"), input, output; kwargs...)
