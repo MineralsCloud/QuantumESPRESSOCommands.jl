@@ -5,6 +5,23 @@ using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
 using Comonicon: @cast, @main
 using Compat: addenv
 using Configurations: from_dict, @option
+@static if VERSION >= v"1.6"
+    using Preferences: @load_preference
+end
+
+@static if VERSION >= v"1.6"
+    const pw_path = @load_preference("pw.x path", "pw.x")
+    const ph_path = @load_preference("ph.x path", "ph.x")
+    const q2r_path = @load_preference("q2r.x path", "q2r.x")
+    const matdyn_path = @load_preference("matdyn.x path", "matdyn.x")
+    const dynmat_path = @load_preference("dynmat.x path", "dynmat.x")
+else
+    const pw_path = "pw.x"
+    const ph_path = "ph.x"
+    const q2r_path = "q2r.x"
+    const matdyn_path = "matdyn.x"
+    const dynmat_path = "dynmat.x"
+end
 
 export pw, ph, q2r, matdyn, dynmat
 
@@ -35,7 +52,6 @@ Create configurations for `pw.x`.
   flags of `pw.x`.
 """
 @option mutable struct PwxConfig <: CommandConfig
-    path::String = "pw.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env::Union{Dict,Vector} = Dict(ENV)
@@ -53,7 +69,6 @@ Create configurations for `ph.x`.
   flags of `ph.x`.
 """
 @option mutable struct PhxConfig <: CommandConfig
-    path::String = "ph.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env::Union{Dict,Vector} = Dict(ENV)
@@ -71,7 +86,6 @@ Create configurations for `q2r.x`.
   flags of `q2r.x`.
 """
 @option mutable struct Q2rxConfig <: CommandConfig
-    path::String = "q2r.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env::Union{Dict,Vector} = Dict(ENV)
@@ -89,7 +103,6 @@ Create configurations for `matdyn.x`.
   flags of `matdyn.x`.
 """
 @option mutable struct MatdynxConfig <: CommandConfig
-    path::String = "matdyn.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env::Union{Dict,Vector} = Dict(ENV)
@@ -107,7 +120,6 @@ Create configurations for `dynmat.x`.
   flags of `dynmat.x`.
 """
 @option mutable struct DynmatxConfig <: CommandConfig
-    path::String = "dynmat.x"
     chdir::Bool = true
     options::ParallelizationFlags = ParallelizationFlags()
     env::Union{Dict,Vector} = Dict(ENV)
