@@ -1,9 +1,8 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
-using AbInitioSoftwareBase.Commands: CommandConfig, MpiexecConfig, mpiexec
+using AbInitioSoftwareBase.Commands: CommandConfig, mpiexec
 using Comonicon: @cast, @main
-using Compat: addenv
 using Configurations: from_dict, @option
 @static if VERSION >= v"1.6"
     using Preferences: @load_preference
