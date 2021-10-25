@@ -2,7 +2,6 @@ module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: mpiexec
-using Comonicon: @cast, @main
 @static if VERSION >= v"1.6"
     using Preferences: @load_preference
 end
@@ -162,10 +161,5 @@ function cmdtemplate(
     dir = abspath(chdir ? parentdir(input) : pwd())
     return pipeline(Cmd(f(args); dir = dir); stdin = input, stdout = output)
 end
-
-"""
-The main command `qe`.
-"""
-@main
 
 end
