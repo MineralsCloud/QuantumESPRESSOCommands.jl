@@ -4,7 +4,6 @@ authors = ["Qi Zhang <singularitti@outlook.com>"]
 version = "0.6.2-DEV"
 
 [deps]
-Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
 Configurations = "5218b696-f38b-4ac9-8b61-a12ec717816d"
 AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
 Preferences = "21216c6a-2e73-6563-6e65-726566657250"
@@ -14,7 +13,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 julia = "1.3.1"
-Compat = "3.16"
 Configurations = "0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16"
 AbInitioSoftwareBase = "0.4, 0.5, 0.6"
 Preferences = "1"
