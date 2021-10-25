@@ -3,21 +3,57 @@ module QuantumESPRESSOCommands
 using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: mpiexec
 @static if VERSION >= v"1.6"
-    using Preferences: @load_preference
+    using Preferences: @load_preference, @set_preferences!
 end
 
 @static if VERSION >= v"1.6"
-    const pw_path = @load_preference("pw.x path", "pw.x")
-    const ph_path = @load_preference("ph.x path", "ph.x")
-    const q2r_path = @load_preference("q2r.x path", "q2r.x")
-    const matdyn_path = @load_preference("matdyn.x path", "matdyn.x")
-    const dynmat_path = @load_preference("dynmat.x path", "dynmat.x")
+    function get_path(exe)
+        if exe == "pw"
+            return @load_preference("pw.x path", "pw.x")
+        elseif exe == "ph"
+            return @load_preference("ph.x path", "ph.x")
+        elseif exe == "q2r"
+            return @load_preference("q2r.x path", "q2r.x")
+        elseif exe == "matdyn"
+            return @load_preference("matdyn.x path", "matdyn.x")
+        elseif exe == "dynmat"
+            return @load_preference("dynmat.x path", "dynmat.x")
+        else
+            throw(ArgumentError("invalid option $exe."))
+        end
+    end
+    function set_path(exe, path::String)
+        @assert ispath(path)
+        if exe == "pw"
+            @set_preferences!("pw.x path" => path)
+        elseif exe == "ph"
+            @set_preferences!("ph.x path" => path)
+        elseif exe == "q2r"
+            @set_preferences!("q2r.x path" => path)
+        elseif exe == "matdyn"
+            @set_preferences!("matdyn.x path" => path)
+        elseif exe == "dynmat"
+            @set_preferences!("dynmat.x path" => path)
+        else
+            throw(ArgumentError("invalid option $exe."))
+        end
+    end
 else
-    const pw_path = "pw.x"
-    const ph_path = "ph.x"
-    const q2r_path = "q2r.x"
-    const matdyn_path = "matdyn.x"
-    const dynmat_path = "dynmat.x"
+    function get_path(exe)
+        if exe == "pw"
+            return "pw.x"
+        elseif exe == "ph"
+            return "ph.x"
+        elseif exe == "q2r"
+            return "q2r.x"
+        elseif exe == "matdyn"
+            return "matdyn.x"
+        elseif exe == "dynmat"
+            return "dynmat.x"
+        else
+            throw(ArgumentError("invalid option $exe."))
+        end
+    end
 end
 
 export pw, ph, q2r, matdyn, dynmat
@@ -40,7 +76,7 @@ Run command `pw.x`.
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
 pw(input, output = mktemp(parentdir(input))[1]; kwargs...) =
-    cmdtemplate(pw_path, input, output; kwargs...)
+    cmdtemplate(get_path("pw"), input, output; kwargs...)
 """
 Run command `ph.x`.
 
@@ -59,7 +95,7 @@ Run command `ph.x`.
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
 ph(input, output = mktemp(parentdir(input))[1]; kwargs...) =
-    cmdtemplate(ph_path, input, output; kwargs...)
+    cmdtemplate(get_path("ph"), input, output; kwargs...)
 """
 Run command `q2r.x`.
 
@@ -78,7 +114,7 @@ Run command `q2r.x`.
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
 q2r(input, output = mktemp(parentdir(input))[1]; kwargs...) =
-    cmdtemplate(q2r_path, input, output; kwargs...)
+    cmdtemplate(get_path("q2r"), input, output; kwargs...)
 """
 Run command `matdyn.x`.
 
@@ -97,7 +133,7 @@ Run command `matdyn.x`.
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
 matdyn(input, output = mktemp(parentdir(input))[1]; kwargs...) =
-    cmdtemplate(matdyn_path, input, output; kwargs...)
+    cmdtemplate(get_path("matdyn"), input, output; kwargs...)
 """
 Run command `dynmat.x`.
 
@@ -116,7 +152,7 @@ Run command `dynmat.x`.
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
 dynmat(input, output = mktemp(parentdir(input))[1]; kwargs...) =
-    cmdtemplate(matdyn_path, input, output; kwargs...)
+    cmdtemplate(get_path("dynmat"), input, output; kwargs...)
 
 """
     makecmd(input, output; dir, mpi, main)
