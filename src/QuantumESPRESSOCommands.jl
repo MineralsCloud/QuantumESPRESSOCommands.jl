@@ -2,7 +2,6 @@ module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: mpiexec
-using Comonicon: @cast, @main
 @static if VERSION >= v"1.6"
     using Preferences: @load_preference
 end
@@ -40,33 +39,8 @@ Run command `pw.x`.
 
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
-@cast function pw(
-    input,
-    output = mktemp(parentdir(input))[1];
-    np = 1,
-    path = "pw.x",
-    chdir = false,
-    nimage = 0,
-    npool = 0,
-    ntg = 0,
-    nyfft = 0,
-    nband = 0,
-    ndiag = 0,
-)
-    mpi = MpiexecConfig(; np = np)
-    main = PwxConfig(;
-        path = path,
-        chdir = chdir,
-        nimage = nimage,
-        npool = npool,
-        ntg = ntg,
-        nyfft = nyfft,
-        nband = nband,
-        ndiag = ndiag,
-    )
-    cmd = makecmd(input, output; mpi = mpi, main = main)
-    return run(cmd)
-end
+pw(input, output = mktemp(parentdir(input))[1]; kwargs...) =
+    cmdtemplate(pw_path, input, output; kwargs...)
 """
 Run command `ph.x`.
 
@@ -84,33 +58,8 @@ Run command `ph.x`.
 
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
-@cast function ph(
-    input,
-    output = mktemp(parentdir(input))[1];
-    np = 1,
-    path = "ph.x",
-    chdir = true,
-    nimage = 0,
-    npool = 0,
-    ntg = 0,
-    nyfft = 0,
-    nband = 0,
-    ndiag = 0,
-)
-    mpi = MpiexecConfig(; np = np)
-    main = PhxConfig(;
-        path = path,
-        chdir = chdir,
-        nimage = nimage,
-        npool = npool,
-        ntg = ntg,
-        nyfft = nyfft,
-        nband = nband,
-        ndiag = ndiag,
-    )
-    cmd = makecmd(input, output; mpi = mpi, main = main)
-    return run(cmd)
-end
+ph(input, output = mktemp(parentdir(input))[1]; kwargs...) =
+    cmdtemplate(ph_path, input, output; kwargs...)
 """
 Run command `q2r.x`.
 
@@ -128,33 +77,8 @@ Run command `q2r.x`.
 
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
-@cast function q2r(
-    input,
-    output = mktemp(parentdir(input))[1];
-    np = 1,
-    path = "q2r.x",
-    chdir = true,
-    nimage = 0,
-    npool = 0,
-    ntg = 0,
-    nyfft = 0,
-    nband = 0,
-    ndiag = 0,
-)
-    mpi = MpiexecConfig(; np = np)
-    main = Q2rxConfig(;
-        path = path,
-        chdir = chdir,
-        nimage = nimage,
-        npool = npool,
-        ntg = ntg,
-        nyfft = nyfft,
-        nband = nband,
-        ndiag = ndiag,
-    )
-    cmd = makecmd(input, output; mpi = mpi, main = main)
-    return run(cmd)
-end
+q2r(input, output = mktemp(parentdir(input))[1]; kwargs...) =
+    cmdtemplate(q2r_path, input, output; kwargs...)
 """
 Run command `matdyn.x`.
 
@@ -172,33 +96,8 @@ Run command `matdyn.x`.
 
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
-@cast function matdyn(
-    input,
-    output = mktemp(parentdir(input))[1];
-    np = 1,
-    path = "matdyn.x",
-    chdir = true,
-    nimage = 0,
-    npool = 0,
-    ntg = 0,
-    nyfft = 0,
-    nband = 0,
-    ndiag = 0,
-)
-    mpi = MpiexecConfig(; np = np)
-    main = MatdynxConfig(;
-        path = path,
-        chdir = chdir,
-        nimage = nimage,
-        npool = npool,
-        ntg = ntg,
-        nyfft = nyfft,
-        nband = nband,
-        ndiag = ndiag,
-    )
-    cmd = makecmd(input, output; mpi = mpi, main = main)
-    return run(cmd)
-end
+matdyn(input, output = mktemp(parentdir(input))[1]; kwargs...) =
+    cmdtemplate(matdyn_path, input, output; kwargs...)
 """
 Run command `dynmat.x`.
 
@@ -216,33 +115,8 @@ Run command `dynmat.x`.
 
 - `--chdir`: if true, change directory to where the input file is stored when running.
 """
-@cast function dynmat(
-    input,
-    output = mktemp(parentdir(input))[1];
-    np = 1,
-    path = "dynmat.x",
-    chdir = true,
-    nimage = 0,
-    npool = 0,
-    ntg = 0,
-    nyfft = 0,
-    nband = 0,
-    ndiag = 0,
-)
-    mpi = MpiexecConfig(; np = np)
-    main = DynmatxConfig(;
-        path = path,
-        chdir = chdir,
-        nimage = nimage,
-        npool = npool,
-        ntg = ntg,
-        nyfft = nyfft,
-        nband = nband,
-        ndiag = ndiag,
-    )
-    cmd = makecmd(input, output; mpi = mpi, main = main)
-    return run(cmd)
-end
+dynmat(input, output = mktemp(parentdir(input))[1]; kwargs...) =
+    cmdtemplate(matdyn_path, input, output; kwargs...)
 
 """
     makecmd(input, output; dir, mpi, main)
@@ -267,18 +141,17 @@ function cmdtemplate(
     nband = 0,
     ndiag = 0,
     np = 1,
+    env = [],
     kwargs...,
 )
     if ndiag^2 > np
         @error "`ndiag` square should be less than `np`!"
     end
-    f = mpiexec(; kwargs...)
+    f = mpiexec(env; np = np, kwargs...)
     args = [path]
-    for (key, value) in (;
-        zip(
-            (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
-            (nimage, npool, ntg, nyfft, nband, ndiag),
-        )...,
+    for (key, value) in zip(
+        (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
+        (nimage, npool, ntg, nyfft, nband, ndiag),
     )
         if !iszero(value)
             push!(args, "-$key", string(value))
@@ -287,10 +160,5 @@ function cmdtemplate(
     dir = abspath(chdir ? parentdir(input) : pwd())
     return pipeline(Cmd(f(args); dir = dir); stdin = input, stdout = output)
 end
-
-"""
-The main command `qe`.
-"""
-@main
 
 end
