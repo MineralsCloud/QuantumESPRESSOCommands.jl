@@ -1,4 +1,4 @@
-using QuantumESPRESSOCommands: pw, set_path
+using QuantumESPRESSOCommands: pw, set_path, get_path
 using Test
 
 @testset "Test `pw`" begin
