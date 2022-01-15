@@ -7,13 +7,13 @@ version = "0.7.1-DEV"
 AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
 Preferences = "21216c6a-2e73-6563-6e65-726566657250"
 
+[compat]
+AbInitioSoftwareBase = "0.7, 0.8"
+Preferences = "1"
+julia = "1"
+
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[compat]
-julia = "1"
-AbInitioSoftwareBase = "0.7"
-Preferences = "1"
 
 [targets]
 test = ["Test"]
