@@ -1,0 +1,3 @@
+[deps]
+JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+QuantumESPRESSOCommands = "f713baf6-9299-4878-8719-8ad597e49a7b"
