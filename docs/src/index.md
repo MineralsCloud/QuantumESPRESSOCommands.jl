@@ -4,48 +4,72 @@ CurrentModule = QuantumESPRESSOCommands
 
 # QuantumESPRESSOCommands
 
-`QuantumESPRESSOCommands` is a <a href="https://julialang.org"><img src="https://julialang.org/assets/infra/julia.ico" width="16em">Julia Language</a> package.
-It is used to build some QuantumESPRESSO commands from Julia functions and types,
-and run from shell (scripts).
+Documentation for [`QuantumESPRESSOCommands`](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl).
 
-### Command Line Interface
+See the [Index](@ref main-index) for the complete list of documented functions
+and types.
 
-Add `~/.julia/bin` to your `PATH` to enable command line interface. Or run
-`QuantumESPRESSOCommands.comonicon_install_path()` to install everything automatically.
+The code is [hosted on GitHub](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl),
+with some continuous integration services to test its validity.
 
-Sometimes, you won't trigger the package `build` of Julia. You can install the command line interface
-manually via `QuantumESPRESSOCommands.comonicon_install()`.
+This repository is created and maintained by [@singularitti](https://github.com/singularitti).
+You are very welcome to contribute.
 
-### Completions
+## Installation
 
-If you are using ZSH, you can enable the auto-completion by `QuantumESPRESSOCommands.comonicon_install_path()`. Or add the `FPATH`
-to your `.zshrc`
+The package can be installed with the Julia package manager.
+From the Julia REPL, type `]` to enter the Pkg REPL mode and run:
 
-```sh
-export FPATH="$HOME/.julia/completions:$FPATH"
+```julia
+pkg> add QuantumESPRESSOCommands
 ```
 
-if you do not have [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh) installed, you need to add
+Or, equivalently, via the `Pkg` API:
 
-```sh
-autoload -Uz compinit && compinit
+```@repl
+import Pkg; Pkg.add("QuantumESPRESSOCommands")
 ```
 
-to your `.zshrc` as well.
+## Documentation
 
-## Manual Outline
+- [**STABLE**](https://MineralsCloud.github.io/QuantumESPRESSOCommands.jl/stable) — **documentation of the most recently tagged version.**
+- [**DEV**](https://MineralsCloud.github.io/QuantumESPRESSOCommands.jl/dev) — _documentation of the in-development version._
+
+## Project status
+
+The package is tested against, and being developed for, Julia `1.6` and above on Linux,
+macOS, and Windows.
+
+## Questions and contributions
+
+Usage questions can be posted on
+[our discussion page](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/discussions).
+
+Contributions are very welcome, as are feature requests and suggestions. Please open an
+[issue](https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/issues)
+if you encounter any problems. The [contributing](@ref) page has
+a few guidelines that should be followed when opening pull requests and contributing code.
+
+## Manual outline
 
 ```@contents
 Pages = [
     "installation.md",
-    "develop.md",
-    "usage.md",
-    "api.md",
+    "developers/contributing.md",
+    "developers/style.md",
+    "troubleshooting.md",
 ]
 Depth = 3
 ```
 
-## Index
+## Library outline
+
+```@contents
+Pages = ["public.md"]
+```
+
+### [Index](@id main-index)
 
 ```@index
+Pages = ["public.md"]
 ```

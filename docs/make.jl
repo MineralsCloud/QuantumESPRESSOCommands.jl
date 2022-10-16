@@ -5,22 +5,27 @@ DocMeta.setdocmeta!(QuantumESPRESSOCommands, :DocTestSetup, :(using QuantumESPRE
 
 makedocs(;
     modules=[QuantumESPRESSOCommands],
-    authors="Qi Zhang <singularitti@outlook.com>",
+    authors="singularitti <singularitti@outlook.com>",
     repo="https://github.com/MineralsCloud/QuantumESPRESSOCommands.jl/blob/{commit}{path}#{line}",
     sitename="QuantumESPRESSOCommands.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://MineralsCloud.github.io/QuantumESPRESSOCommands.jl",
+        edit_link="main",
         assets=String[],
     ),
     pages=[
         "Home" => "index.md",
         "Manual" => [
-            "Installation" => "installation.md",
-            "Development" => "develop.md",
-            "Usage" => "usage.md",
+            "Installation guide" => "installation.md",
         ],
-        "API" => "api.md",
+        # "API Reference" => "public.md",
+        "Developer Docs" => [
+            "Contributing" => "developers/contributing.md",
+            "Style Guide" => "developers/style.md",
+        ],
+        "Troubleshooting" => "troubleshooting.md",
+        # "FAQ" => "faq.md",
     ],
 )
 
