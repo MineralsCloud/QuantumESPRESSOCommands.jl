@@ -1,7 +1,7 @@
 module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
-using AbInitioSoftwareBase.Commands: mpiexec
+using AbInitioSoftwareBase.Commands: Mpiexec
 using Preferences: @load_preference, @set_preferences!
 
 function get_path(exe)
@@ -102,7 +102,7 @@ function cmdtemplate(
     if ndiag^2 > np
         @error "`ndiag` square should be less than `np`!"
     end
-    f = mpiexec(env; np=np, kwargs...)
+    f = Mpiexec(env; np=np, kwargs...)
     args = [path]
     for (key, value) in zip(
         (:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),
