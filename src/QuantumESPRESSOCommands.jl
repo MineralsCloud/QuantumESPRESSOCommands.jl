@@ -4,7 +4,7 @@ using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: Mpiexec
 using Preferences: @load_preference, @set_preferences!
 
-function get_path(exe)
+function getpath(exe)
     if exe == "pw"
         return @load_preference("pw.x path", "pw.x")
     elseif exe == "ph"
@@ -19,7 +19,7 @@ function get_path(exe)
         throw(ArgumentError("invalid option $exe."))
     end
 end
-function set_path(exe, path::String)
+function setpath(exe, path::String)
     @assert ispath(path)
     if exe == "pw"
         @set_preferences!("pw.x path" => path)
@@ -44,7 +44,7 @@ export pw, ph, q2r, matdyn, dynmat
 Make commands for `pw.x`.
 """
 function pw(input, output=mktemp(parentdir(input))[1]; kwargs...)
-    return cmdtemplate(get_path("pw"), input, output; kwargs...)
+    return cmdtemplate(getpath("pw"), input, output; kwargs...)
 end
 """
     ph(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
@@ -52,7 +52,7 @@ end
 Make commands for `ph.x`.
 """
 function ph(input, output=mktemp(parentdir(input))[1]; kwargs...)
-    return cmdtemplate(get_path("ph"), input, output; kwargs...)
+    return cmdtemplate(getpath("ph"), input, output; kwargs...)
 end
 """
     q2r(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
@@ -60,7 +60,7 @@ end
 Make commands for `q2r.x`.
 """
 function q2r(input, output=mktemp(parentdir(input))[1]; kwargs...)
-    return cmdtemplate(get_path("q2r"), input, output; kwargs...)
+    return cmdtemplate(getpath("q2r"), input, output; kwargs...)
 end
 """
     matdyn(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
@@ -68,7 +68,7 @@ end
 Make commands for `matdyn.x`.
 """
 function matdyn(input, output=mktemp(parentdir(input))[1]; kwargs...)
-    return cmdtemplate(get_path("matdyn"), input, output; kwargs...)
+    return cmdtemplate(getpath("matdyn"), input, output; kwargs...)
 end
 """
     dynmat(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
@@ -76,7 +76,7 @@ end
 Make commands for `dynmat.x`.
 """
 function dynmat(input, output=mktemp(parentdir(input))[1]; kwargs...)
-    return cmdtemplate(get_path("dynmat"), input, output; kwargs...)
+    return cmdtemplate(getpath("dynmat"), input, output; kwargs...)
 end
 
 """
