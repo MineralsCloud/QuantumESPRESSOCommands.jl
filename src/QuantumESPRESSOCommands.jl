@@ -2,7 +2,7 @@ module QuantumESPRESSOCommands
 
 using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: Mpiexec
-using Preferences: @load_preference, @set_preferences!
+using Preferences: @load_preference, @set_preferences!, @delete_preferences!
 
 export pwx, phx, q2rx, matdynx, dynmatx
 
@@ -42,6 +42,22 @@ function setpath(exe::Executable, path::String)
 end
 
 export pw, ph, q2r, matdyn, dynmat
+
+function unsetpath(exe::Executable)
+    if exe == pwx
+        return @delete_preferences!("pw.x path")
+    elseif exe == phx
+        return @delete_preferences!("ph.x path")
+    elseif exe == q2rx
+        return @delete_preferences!("q2r.x path")
+    elseif exe == matdynx
+        return @delete_preferences!("matdyn.x path")
+    elseif exe == dynmatx
+        return @delete_preferences!("dynmat.x path")
+    else
+        error("this should not happen!")
+    end
+end
 
 """
     pw(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
