@@ -4,6 +4,10 @@ using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: Mpiexec
 using Preferences: @load_preference, @set_preferences!
 
+export pwx, phx, q2rx, matdynx, dynmatx
+
+@enum Executable pwx phx q2rx matdynx dynmatx
+
 function getpath(exe::Executable)
     if exe == pwx
         return @load_preference("pw.x path", "pw.x")
