@@ -1,10 +1,9 @@
 module QuantumESPRESSOCommands
 
-using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: Mpiexec
 using Preferences: @load_preference, @set_preferences!, @delete_preferences!
 
-export pwx, phx, q2rx, matdynx, dynmatx
+export pwx, phx, q2rx, matdynx, dynmatx, getpath, setpath, unsetpath
 
 @enum Executable pwx phx q2rx matdynx dynmatx
 
@@ -40,8 +39,6 @@ function setpath(exe::Executable, path::String)
         error("this should not happen!")
     end
 end
-
-export pw, ph, q2r, matdyn, dynmat
 
 function unsetpath(exe::Executable)
     if exe == pwx
