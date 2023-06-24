@@ -4,32 +4,32 @@ using AbInitioSoftwareBase: parentdir
 using AbInitioSoftwareBase.Commands: Mpiexec
 using Preferences: @load_preference, @set_preferences!
 
-function getpath(exe)
-    if exe == "pw"
+function getpath(exe::Executable)
+    if exe == pwx
         return @load_preference("pw.x path", "pw.x")
-    elseif exe == "ph"
+    elseif exe == phx
         return @load_preference("ph.x path", "ph.x")
-    elseif exe == "q2r"
+    elseif exe == q2rx
         return @load_preference("q2r.x path", "q2r.x")
-    elseif exe == "matdyn"
+    elseif exe == matdynx
         return @load_preference("matdyn.x path", "matdyn.x")
-    elseif exe == "dynmat"
+    elseif exe == dynmatx
         return @load_preference("dynmat.x path", "dynmat.x")
     else
         throw(ArgumentError("invalid option $exe."))
     end
 end
-function setpath(exe, path::String)
+function setpath(exe::Executable, path::String)
     @assert ispath(path)
-    if exe == "pw"
+    if exe == pwx
         @set_preferences!("pw.x path" => path)
-    elseif exe == "ph"
+    elseif exe == phx
         @set_preferences!("ph.x path" => path)
-    elseif exe == "q2r"
+    elseif exe == q2rx
         @set_preferences!("q2r.x path" => path)
-    elseif exe == "matdyn"
+    elseif exe == matdynx
         @set_preferences!("matdyn.x path" => path)
-    elseif exe == "dynmat"
+    elseif exe == dynmatx
         @set_preferences!("dynmat.x path" => path)
     else
         throw(ArgumentError("invalid option $exe."))
