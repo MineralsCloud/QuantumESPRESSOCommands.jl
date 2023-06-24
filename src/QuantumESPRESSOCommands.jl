@@ -20,9 +20,10 @@ function getpath(exe::Executable)
     elseif exe == dynmatx
         return @load_preference("dynmat.x path", "dynmat.x")
     else
-        throw(ArgumentError("invalid option $exe."))
+        error("this should not happen!")
     end
 end
+
 function setpath(exe::Executable, path::String)
     @assert ispath(path)
     if exe == pwx
@@ -36,7 +37,7 @@ function setpath(exe::Executable, path::String)
     elseif exe == dynmatx
         @set_preferences!("dynmat.x path" => path)
     else
-        throw(ArgumentError("invalid option $exe."))
+        error("this should not happen!")
     end
 end
 
