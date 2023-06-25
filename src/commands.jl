@@ -1,4 +1,4 @@
-using AbInitioSoftwareBase.Commands: Mpiexec
+using AbInitioSoftwareBase.Commands: Mpiexec, _expandargs
 
 export PwX
 
@@ -26,6 +26,15 @@ function (pwx::PwX)(input, output=mktemp(parentdir(input))[1], chdir=true)
     end
     dir = abspath(chdir ? parentdir(input) : pwd())
     return pipeline(Cmd(Cmd(pwx.args); dir=dir); stdin=input, stdout=output)
+end
+
+function (mpiexec::Mpiexec)(pwx::PwX)
+    if pwx.options[:ndiag]^2 > mpiexec.options[:np]
+        @error "`ndiag` square should be less than `np`!"
+    end
+    args = _expandargs(mpiexec)
+    pushfirst!(pwx.args, args...)
+    return pwx
 end
 
 """
