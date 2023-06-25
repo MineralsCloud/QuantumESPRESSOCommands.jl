@@ -1,5 +1,22 @@
 using AbInitioSoftwareBase.Commands: Mpiexec
 
+export PwX
+
+struct PwX
+    path::String
+    env::Tuple
+    options::NamedTuple{(:nimage, :npool, :ntg, :nyfft, :nband, :ndiag),NTuple{6,Int64}}
+    args::Vector{String}
+end
+function PwX(path, env::Pair...; nimage=0, npool=0, ntg=0, nyfft=0, nband=0, ndiag=0)
+    return PwX(
+        path,
+        Tuple(string(key) => string(value) for (key, value) in env),
+        (nimage=nimage, npool=npool, ntg=ntg, nyfft=nyfft, nband=nband, ndiag=ndiag),
+        [],
+    )
+end
+
 """
     pw(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
