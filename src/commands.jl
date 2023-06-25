@@ -17,6 +17,17 @@ function PwX(path, env::Pair...; nimage=0, npool=0, ntg=0, nyfft=0, nband=0, ndi
     )
 end
 
+function (pwx::PwX)(input, output=mktemp(parentdir(input))[1], chdir=true)
+    push!(pwx.args, pwx.path)
+    for (key, value) in pairs(pwx.options)
+        if !iszero(value)
+            push!(pwx.args, "-$key", string(value))
+        end
+    end
+    dir = abspath(chdir ? parentdir(input) : pwd())
+    return pipeline(Cmd(Cmd(pwx.args); dir=dir); stdin=input, stdout=output)
+end
+
 """
     pw(input, output; chdir, nimage, npool, ntg, nyfft, nband, ndiag, np, env, kwargs...)
 
