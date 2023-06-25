@@ -114,3 +114,5 @@ function cmdtemplate(
     dir = abspath(chdir ? parentdir(input) : pwd())
     return pipeline(Cmd(f(args); dir=dir); stdin=input, stdout=output)
 end
+
+parentdir(file) = dirname(abspath(expanduser(file)))
