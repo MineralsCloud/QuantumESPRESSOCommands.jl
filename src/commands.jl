@@ -1,4 +1,7 @@
 using AbInitioSoftwareBase.Commands: Mpiexec, _expandargs
+using CommandComposer: Option
+
+import CommandComposer: Command
 
 export PwX
 
@@ -15,15 +18,13 @@ function PwX(path, env::Pair...; nimage=0, npool=0, ntg=0, nyfft=0, nband=0, ndi
     )
 end
 
-function (pwx::PwX)(input, output=mktemp(parentdir(input))[1], chdir=true)
-    push!(pwx.args, pwx.path)
-    for (key, value) in pairs(pwx.options)
+function Command(pwx::PwX)
+    options = map(pairs(pwx.options)) do (key, value)
         if !iszero(value)
-            push!(pwx.args, "-$key", string(value))
+            Option("", string(key), value)
         end
     end
-    dir = abspath(chdir ? parentdir(input) : pwd())
-    return pipeline(Cmd(Cmd(pwx.args); dir=dir); stdin=input, stdout=output)
+    return Command(pwx.path, [], options, [], [])
 end
 
 function (mpiexec::Mpiexec)(pwx::PwX)
