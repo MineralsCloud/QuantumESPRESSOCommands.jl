@@ -1,4 +1,3 @@
-using AbInitioSoftwareBase.Commands: Mpiexec, _expandargs
 using CommandComposer: Option
 
 import CommandComposer: Command
@@ -25,15 +24,6 @@ function Command(pwx::PwX)
         end
     end
     return Command(pwx.path, [], options, [], [])
-end
-
-function (mpiexec::Mpiexec)(pwx::PwX)
-    if pwx.options[:ndiag]^2 > mpiexec.options[:np]
-        @error "`ndiag` square should be less than `np`!"
-    end
-    args = _expandargs(mpiexec)
-    pushfirst!(pwx.args, args...)
-    return pwx
 end
 
 parentdir(file) = dirname(abspath(expanduser(file)))
