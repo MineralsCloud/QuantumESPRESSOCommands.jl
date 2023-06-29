@@ -5,7 +5,7 @@ version = "0.7.3"
 
 [deps]
 AbInitioSoftwareBase = "df5135bc-470e-46c6-b451-292e27ca5b84"
-CommandComposer = "b5b47461-4a42-4db3-bdf2-684fadd57bc3"
+ComposableCommands = "b5b47461-4a42-4db3-bdf2-684fadd57bc3"
 Preferences = "21216c6a-2e73-6563-6e65-726566657250"
 
 [compat]
