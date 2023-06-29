@@ -21,5 +21,10 @@ function Command(pwx::PwX)
     end
     return Command(pwx.path, options, [], [])
 end
+function Command(chain::ExecutableChain{Mpiexec,PwX})
+    cmd = Command(chain.a)
+    push!(cmd.subcommands, Command(chain.b))
+    return cmd
+end
 
 parentdir(file) = dirname(abspath(expanduser(file)))
