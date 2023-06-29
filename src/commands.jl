@@ -1,4 +1,4 @@
-using CommandComposer: Option
+using CommandComposer: ShortOption
 
 import CommandComposer: Command
 
@@ -20,10 +20,10 @@ end
 function Command(pwx::PwX)
     options = map(pairs(pwx.options)) do (key, value)
         if !iszero(value)
-            Option("", string(key), value)
+            ShortOption(string(key), value)
         end
     end
-    return Command(pwx.path, [], options, [], [])
+    return Command(pwx.path, options, [], [])
 end
 
 parentdir(file) = dirname(abspath(expanduser(file)))
