@@ -18,7 +18,7 @@ function PwX(path, env::Pair...; nimage=0, npool=0, ntg=0, nyfft=0, nband=0, ndi
 end
 
 function Command(pwx::PwX)
-    options = map(pairs(pwx.options)) do (key, value)
+    options = map(keys(pwx.options), values(pwx.options)) do key, value
         if !iszero(value)
             ShortOption(string(key), value)
         end
