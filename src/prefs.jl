@@ -2,9 +2,9 @@ using Preferences: @load_preference, @set_preferences!, @delete_preferences!
 
 export pwx, phx, q2rx, matdynx, dynmatx, getpath, setpath, unsetpath
 
-@enum Executable pwx bandsx dosx phx q2rx matdynx dynmatx
+@enum QuantumESPRESSOExecutable pwx bandsx dosx phx q2rx matdynx dynmatx
 
-function getpath(exec::Executable)
+function getpath(exec::QuantumESPRESSOExecutable)
     if exec == pwx
         return @load_preference("pw.x path", "pw.x")
     elseif exec == bandsx
@@ -24,7 +24,7 @@ function getpath(exec::Executable)
     end
 end
 
-function setpath(exec::Executable, path::String)
+function setpath(exec::QuantumESPRESSOExecutable, path::String)
     @assert ispath(path)
     if exec == pwx
         @set_preferences!("pw.x path" => path)
@@ -45,7 +45,7 @@ function setpath(exec::Executable, path::String)
     end
 end
 
-function unsetpath(exec::Executable)
+function unsetpath(exec::QuantumESPRESSOExecutable)
     if exec == pwx
         @delete_preferences!("pw.x path")
     elseif exec == bandsx
