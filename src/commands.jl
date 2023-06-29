@@ -1,7 +1,7 @@
 using AbInitioSoftwareBase.Commands: Executable, ExecutableChain, Mpiexec
-using CommandComposer: ShortOption
+using ComposableCommands: ShortOption
 
-import CommandComposer: Command
+import ComposableCommands: Command
 
 export PwX
 
